@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<!--    引入js-->
+    <script type="text/javascript" th:src="@{//api.map.baidu.com/api?type=webgl&v=1.0&ak=C1Kx89TKvWa1F5zOxEAxB1jP4kwqTU25}"></script>
+    <script type="text/javascript" th:src="@{//mapopen.cdn.bcebos.com/github/BMapGLLib/DrawingManager/src/DrawingManager.min.js}"></script>
+    <script type="text/javascript" th:src="@{//mapopen.cdn.bcebos.com/github/BMapGLLib/InfoBox/src/InfoBox.js}"></script>
+    <script type="text/javascript" th:src="@{/js/draw.js}"></script>
+    <script type="text/javascript" th:src="@{https://code.jquery.com/jquery-3.6.3.min.js}"></script>
+<!--    引入样式-->
+    <link th:href="@{//mapopen.cdn.bcebos.com/github/BMapGLLib/DrawingManager/src/DrawingManager.min.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/map.css}">
+    <title>鼠标绘制工具(GL)</title>
+    <style type="text/css">
+        body, html, #container {width: 100%; height: 100%; overflow: hidden; margin: 0; font-family: "微软雅黑";}
+        ul li {list-style: none;}
+    </style>
+</head>
+<body>
+<div type="hidden" id="locationId" th:value="${locationId}"></div>
+<div type="hidden" id="pageNo" th:value="${pageNo}"></div>
+
+<ul class = "drawing-panel">
+<!--    <li class="bmap-btn bmap-marker" id="marker" onclick="draw(this)"></li>-->
+<!--    <li class="bmap-btn bmap-polyline" id="polyline" onclick="draw(this)"></li>-->
+<!--    <li class="bmap-btn bmap-rectangle" id="rectangle" onclick="draw(this)"></li>-->
+    <li class="bmap-btn bmap-polygon" id="polygon" onclick="draw(this)"></li>
+<!--    <li class="bmap-btn bmap-circle" id="circle" onclick="draw(this)"></li>-->
+    <li class = "night btn">
+        <a th:href="@{/location/selectPage/}+${pageNo}">返回</a>
+    </li>
+</ul>
+<div id = "container"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var map = new BMapGL.Map("container", {enableMapClick:false}); // 创建Map实例,GL版命名空间为BMapGL(鼠标右键控制倾斜角度)
+    map.centerAndZoom(new BMapGL.Point(116.03617643337545, 28.695065044120817), 18);      // 初始化地图,设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(true);                               // 开启鼠标滚轮缩放
+
+    var styleOptions = {
+        strokeColor: '#5E87DB',   // 边线颜色
+        fillColor: '#5E87DB',     // 填充颜色。当参数为空时，圆形没有填充颜色
+        strokeWeight: 2,          // 边线宽度，以像素为单位
+        strokeOpacity: 1,         // 边线透明度，取值范围0-1
+        fillOpacity: 0.2          // 填充透明度，取值范围0-1
+    };
+    var labelOptions = {
+        borderRadius: '2px',
+        background: '#FFFBCC',
+        border: '1px solid #E1E1E1',
+        color: '#703A04',
+        fontSize: '12px',
+        letterSpacing: '0',
+        padding: '5px'
+    };
+
+    // 实例化鼠标绘制工具
+    var drawingManager = new BMapGLLib.DrawingManager(map, {
+        // isOpen: true,        // 是否开启绘制模式
+        enableCalculate: false, // 绘制是否进行测距测面
+        enableSorption: true,   // 是否开启边界吸附功能
+        sorptiondistance: 20,   // 边界吸附距离
+        circleOptions: styleOptions,     // 圆的样式
+        polylineOptions: styleOptions,   // 线的样式
+        polygonOptions: styleOptions,    // 多边形的样式
+        rectangleOptions: styleOptions,  // 矩形的样式
+        labelOptions: labelOptions,      // label样式
+    });
+
+</script>

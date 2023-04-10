@@ -1,0 +1,85 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</head>
+<body>
+<div id="div_container">
+    <div id="div_fruit_list">
+        <p class="center f30">欢迎使用校园电子围栏后台管理系统</p>
+        <div>
+            <a>目录：</a>
+            <a th:href="@{/location/select}" style="border:0px solid blue;margin-bottom:4px;">电子围栏</a>
+            <a th:href="@{/trail/select}" style="border:0px solid blue;margin-bottom:4px;">人员流动</a>
+            <a th:href="@{/user/selectAll}" style="border:0px solid blue;margin-bottom:4px;">用户管理</a>
+        </div>
+        <br>
+        <div style="border:0px solid red;width:60%;margin-left:20%;text-align: right;">
+            <a th:href="@{/page/add}" style="border:0px solid blue;margin-bottom:4px;">人员去向分析</a>
+        </div>
+        <table id="tbl_fruit">
+            <tr>
+                <th class="w20">位置</th>
+                <th class="w20">姓名</th>
+                <th class="w20">时间</th>
+                <th class="w20">进/出</th>
+                <th class="w20">操作</th>
+            </tr>
+            <tr th:if="${#lists.isEmpty(trails)}">
+                <th colspan="5">暂无数据</th>
+            </tr>
+            <tr th:unless="${#lists.isEmpty(trails)}" th:each="trail : ${trails}">
+                <th><a th:text="${trail.location}">教学楼</a></th>
+                <th><a th:text="${trail.userName}">某某</a></th>
+                <th><a th:text="${trail.time}">某刻</a></th>
+                <th>
+                    <div th:if="${#strings.equals('1', trail.status)}">
+                        <a>进</a>
+                    </div>
+                    <div th:if="${#strings.equals('0', trail.status)}">
+                        <a>出</a>
+                    </div>
+                </th>
+                <th>
+                    <div th:if="${#strings.equals('1', trails.size)}">
+                        <a th:href="@{/trail/delete/}+${trail.id}+'/'+${page.pageSize - 1}">
+                            <button type="button">删除</button>
+                        </a>
+                    </div>
+                    <div th:unless="${#strings.equals('1', trails.size)}">
+                        <a th:href="@{/trail/delete/}+${trail.id}+'/'+${page.pageSize}">
+                            <button type="button">删除</button>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center">
+            <div>
+                <a th:href="@{/trail/selectPage/}+${page.firstPage}">
+                    <button type="button">首页</button>
+                </a>
+            </div>
+            <div th:if="${#strings.equals('true', page.isHasPreviousPage)}">
+                <a th:href="@{/trail/selectPage/}+${page.pageNum - 1}">
+                    <button type="button">上一页</button>
+                </a>
+            </div>
+            <div>第<a th:text="${page.pageNum}"></a>页/</div>
+            <div>共<a th:text="${page.pageSize}"></a>页</div>
+            <div th:if="${#strings.equals('true', page.isHasNextPage)}">
+                <a th:href="@{/trail/selectPage/}+${page.pageNum + 1}">
+                    <button type="button">下一页</button>
+                </a>
+            </div>
+            <div>
+                <a  th:href="@{/trail/selectPage/}+${page.endPage}">
+                    <button type="button">尾页</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

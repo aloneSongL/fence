@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bs.fence.dao.LocationDao">
+
+<!--    int insert(Location location);-->
+    <insert id="insert" parameterType="com.bs.fence.entity.Location">
+        insert into location(description) values(#{description});
+    </insert>
+
+<!--    int addById(Location location);-->
+    <update id="addById" parameterType="com.bs.fence.entity.Location">
+        update location set coordinate = #{coordinate} where id = #{id};
+    </update>
+
+<!--    int delete(int id);-->
+    <delete id="delete" parameterType="Integer">
+        delete from location where id = #{id};
+    </delete>
+
+<!--    int update(Location location);-->
+    <update id="update" parameterType="com.bs.fence.entity.Location">
+        update location set description = #{description} where id = #{id};
+    </update>
+
+<!--    List<Location> selectAll();-->
+    <resultMap id="LocationResultMap" type="com.bs.fence.entity.Location">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <id column="coordinate" property="coordinate" jdbcType="VARCHAR"></id>
+        <id column="description" property="description" jdbcType="VARCHAR"></id>
+        <id column="is_monitor" property="isMonitor" jdbcType="CHAR"></id>
+    </resultMap>
+    <select id="selectAll" resultMap="LocationResultMap">
+        select id,coordinate,description,is_monitor from location
+    </select>
+
+<!--    int delCoordinateById(Integer id);-->
+    <update id="delCoordinateById" parameterType="Integer">
+        update location set coordinate = null where id = #{id};
+    </update>
+
+<!--    int isMonitorById(Location location);-->
+    <update id="isMonitorById" parameterType="com.bs.fence.entity.Location">
+        update location set is_Monitor = #{isMonitor} where id = #{id};
+    </update>
+
+<!--    String selectLocation(Integer id);-->
+    <select id="selectLocation" parameterType="Integer" resultType="String">
+        select description from location where id = #{id};
+    </select>
+
+<!--    List<Location> queryAll();-->
+    <select id="queryAll" resultMap="LocationResultMap">
+        select id,coordinate,description from location where is_Monitor = '1';
+    </select>
+</mapper>

@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: fence
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver             # mysql驱动包 com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.92.224.180:3306/fence?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: song
+    password: "010516.sjx"
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.bs.fence.entity    # 所有Entity别名类所在包
+
+pagehelper:
+  propertyName: propertyValue
+  reasonable: false
+  defaultCount: true # 分页插件默认参数支持 default-count 形式，自定义扩展的参数，必须大小写一致

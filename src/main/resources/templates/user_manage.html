@@ -1,0 +1,88 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</head>
+<body>
+<div id="div_container">
+    <div id="div_fruit_list">
+        <p class="center f30">欢迎使用校园电子围栏后台管理系统</p>
+        <div>
+            <a>目录：</a>
+            <a th:href="@{/location/select}" style="border:0px solid blue;margin-bottom:4px;">电子围栏</a>
+            <a th:href="@{/trail/select}" style="border:0px solid blue;margin-bottom:4px;">人员流动</a>
+            <a th:href="@{/user/selectAll}" style="border:0px solid blue;margin-bottom:4px;">用户管理</a>
+        </div>
+        <br>
+        <div style="border:0px solid red;width:60%;margin-left:20%;text-align: right;">
+            <a th:href="@{/page/userAdd}" style="border:0px solid blue;margin-bottom:4px;">添加用户</a>
+        </div>
+        <table id="tbl_fruit">
+            <tr>
+                <th class="w20">用户ID</th>
+                <th class="w20">账号</th>
+                <th class="w20">用户姓名</th>
+                <th class="w20">权限</th>
+                <th class="w20">操作</th>
+            </tr>
+            <tr th:if="${#strings.isEmpty(users)}">
+                <th colspan="5">暂无数据</th>
+            </tr>
+            <tr th:unless="${#strings.isEmpty(users)}" th:each="user : ${users}">
+                <th><a th:text="${user.id}">1</a></th>
+                <th><a th:text="${user.userId}">100000</a></th>
+                <th><a th:text="${user.userName}">张三</a></th>
+                <th>
+                    <div th:if="${#strings.equals('0', user.status)}">
+                        <a>普通用户</a>
+                    </div>
+                    <div th:if="${#strings.equals('1', user.status)}">
+                        <a>管理员</a>
+                    </div>
+                </th>
+                <th>
+                    <a th:href="@{/page/userEdit/}+${user.id}+'/'+${page.pageNum}">
+                        <button type="button">编辑</button>
+                    </a>
+                    <div th:if="${#strings.equals('1', users.size)}">
+                        <a th:href="@{/user/delete/}+${user.id}+'/'+${page.pageSize - 1}">
+                            <button type="button">删除</button>
+                        </a>
+                    </div>
+                    <div th:unless="${#strings.equals('1',users.size)}">
+                        <a th:href="@{/user/delete/}+${user.id}+'/'+${page.pageSize}">
+                            <button type="button">删除</button>
+                        </a>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center">
+            <div>
+                <a th:href="@{/user/selectPage/}+${page.firstPage}">
+                    <button type="button">首页</button>
+                </a>
+            </div>
+            <div th:if="${#strings.equals('true', page.isHasPreviousPage)}">
+                <a th:href="@{/user/selectPage/}+${page.pageNum - 1}">
+                    <button type="button">上一页</button>
+                </a>
+            </div>
+            <div>第<a th:text="${page.pageNum}"></a>页/</div>
+            <div>共<a th:text="${page.pageSize}"></a>页</div>
+            <div th:if="${#strings.equals('true', page.isHasNextPage)}">
+                <a th:href="@{/user/selectPage/}+${page.pageNum + 1}">
+                    <button type="button">下一页</button>
+                </a>
+            </div>
+            <div>
+                <a  th:href="@{/user/selectPage/}+${page.endPage}">
+                    <button type="button">尾页</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

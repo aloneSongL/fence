@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/add.css}">
+</head>
+<body>
+<div id="div_container">
+    <div id="div_fruit_list">
+        <p class="center f30">编辑地点</p>
+        <form th:action="@{/location/update/}+${locationId}+'/'+${pageNo}" method="post">
+            <table id="tbl_fruit">
+                <tr>
+                    <th class="w20">名称：</th>
+                    <td><input type="text" name="description"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="w20">
+                        <input type="submit" value="修改"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

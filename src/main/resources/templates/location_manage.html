@@ -1,0 +1,105 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</head>
+<body>
+<div id="div_container">
+    <div id="div_fruit_list">
+        <p class="center f30">欢迎使用校园电子围栏后台管理系统</p>
+        <div>
+            <a>目录：</a>
+            <a th:href="@{/location/select}" style="border:0px solid blue;margin-bottom:4px;">电子围栏</a>
+            <a th:href="@{/trail/select}" style="border:0px solid blue;margin-bottom:4px;">人员流动</a>
+            <a th:href="@{/user/selectAll}" style="border:0px solid blue;margin-bottom:4px;">用户管理</a>
+        </div>
+        <br>
+        <div style="border:0px solid red;width:60%;margin-left:20%;text-align: right;">
+            <a th:href="@{/page/add}" style="border:0px solid blue;margin-bottom:4px;">添加电子围栏</a>
+        </div>
+            <table id="tbl_fruit" th:fragment="location_load">
+                <tr>
+                    <th class="w20">位置</th>
+                    <th class="w20">坐标</th>
+                    <th class="w20">是否监控</th>
+                    <th class="w20">操作</th>
+                </tr>
+                <tr th:if="${#lists.isEmpty(locations)}">
+                    <th colspan="4">暂无数据</th>
+                </tr>
+                <tr th:unless="${#lists.isEmpty(locations)}" th:each="location : ${locations}">
+                    <th><a th:text="${location.description}">教学楼</a></th>
+                    <th th:if="${#strings.isEmpty(location.coordinate)}">
+                        <a th:href="@{/page/map/}+${location.id}+'/'+${page.pageNum}">
+                            <button type="button">添加</button>
+                        </a>
+                    </th>
+                    <th th:unless="${#strings.isEmpty(location.coordinate)}">
+                        <a>已添加坐标</a>
+                        <a th:href="@{/location/delCoordinateById/}+${location.id}+'/'+${page.pageNum}">
+                            <button type="button">删除</button>
+                        </a>
+                    </th>
+                    <th>
+                        <div th:if="${#strings.isEmpty(location.coordinate)}">
+                            <a>请先添加坐标</a>
+                        </div>
+                        <div th:unless="${#strings.isEmpty(location.coordinate)}">
+                            <div th:if="${#strings.equals('1',location.isMonitor)}">
+                                <a th:href="@{/location/isMonitorById/0/}+${location.id}+'/'+${page.pageNum}">
+                                    <button type="button">取消监控</button>
+                                </a>
+                            </div>
+                            <div th:unless="${#strings.equals('1',location.isMonitor)}">
+                                <a th:href="@{/location/isMonitorById/1/}+${location.id}+'/'+${page.pageNum}">
+                                    <button type="button">监控</button>
+                                </a>
+                            </div>
+                        </div>
+                    </th>
+                    <th>
+                        <a th:href="@{/page/locationEdit/}+${location.id}+'/'+${page.pageNum}">
+                            <button type="button">编辑</button>
+                        </a>
+                        <div th:if="${#strings.equals('1', locations.size)}">
+                            <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize - 1}">
+                                <button type="button">删除</button>
+                            </a>
+                        </div>
+                        <div th:unless="${#strings.equals('1',locations.size)}">
+                            <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize}">
+                                <button type="button">删除</button>
+                            </a>
+                        </div>
+                    </th>
+                </tr>
+            </table>
+        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center" th:unless="${#lists.isEmpty(locations)}">
+            <div>
+                <a th:href="@{/location/selectPage/}+${page.firstPage}">
+                    <button type="button">首页</button>
+                </a>
+            </div>
+            <div th:if="${#strings.equals('true', page.isHasPreviousPage)}">
+                <a th:href="@{/location/selectPage/}+${page.pageNum - 1}">
+                    <button type="button">上一页</button>
+                </a>
+            </div>
+            <div>第<a th:text="${page.pageNum}"></a>页/</div>
+            <div>共<a th:text="${page.pageSize}"></a>页</div>
+            <div th:if="${#strings.equals('true', page.isHasNextPage)}">
+                <a th:href="@{/location/selectPage/}+${page.pageNum + 1}">
+                    <button type="button">下一页</button>
+                </a>
+            </div>
+            <div>
+                <a th:href="@{/location/selectPage/}+${page.endPage}">
+                    <button type="button">尾页</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

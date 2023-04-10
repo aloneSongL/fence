@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bs.fence.dao.TrailDao">
+
+<!--    List<Trail> selectAll();-->
+    <resultMap id="TrailMap" type="com.bs.fence.entity.Trail">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <id column="locationId" property="locationId" jdbcType="INTEGER"></id>
+        <id column="time" property="time" jdbcType="TIMESTAMP"></id>
+        <id column="status" property="status" jdbcType="CHAR"></id>
+        <id column="userId" property="userId" jdbcType="BIGINT"></id>
+    </resultMap>
+    <select id="selectAll" resultMap="TrailMap">
+        select id,locationId,`time`,status,userId from trail ORDER BY `time`
+    </select>
+
+<!--    List<Trail> selectById(Integer locationId);-->
+    <select id="selectById" resultMap="TrailMap">
+        select id,locationId,`time`,status,userId from trail where locationId = #{locationId} ORDER BY `time`
+    </select>
+
+<!--    int delete(Long id);-->
+    <delete id="delete" parameterType="Long">
+        delete from trail where id = #{id};
+    </delete>
+
+<!--    int add(Trail trail);-->
+    <insert id="add" parameterType="com.bs.fence.entity.Trail">
+        insert into trail(locationId,time,status,userId) values (#{locationId}, #{time}, #{status}, #{userId});
+    </insert>
+</mapper>

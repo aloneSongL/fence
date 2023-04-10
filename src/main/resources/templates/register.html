@@ -1,0 +1,45 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</head>
+<body onload="load()">
+<div id="div_container">
+    <div id="div_fruit_list">
+        <p class="center f30">校园电子围栏管理系统</p>
+        <div th:value="${message}" id="message"></div>
+        <form th:action="@{/user/select}" method="post">
+            <table id="tbl_fruit">
+                <tr>
+                    <th colspan="2">登录</th>
+                </tr>
+                <tr>
+                    <th class="w20">账号</th>
+                    <th class="w20">
+                        <input class="input_tp" name="userId" type="text" placeholder="请输入账号"/>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="w20">密码</th>
+                    <th class="w20">
+                        <input class="input_tp" name="password" type="password" placeholder="请输入密码"/>
+                    </th>
+                </tr>
+                <tr>
+                    <th class="w20">
+                        <input type="button" value="注册"/>
+                    </th>
+                    <th class="w20">
+                        <input type="submit" value="确认">
+                    </th>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+</div>
+</body>
+</html>

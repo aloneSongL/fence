@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/add.css}">
+</head>
+<body>
+<div id="div_container">
+    <div id="div_fruit_list">
+        <p class="center f30">编辑用户</p>
+        <form th:action="@{/user/update/}+${userId}+'/'+${pageNo}" method="post">
+            <table id="tbl_fruit">
+                <tr>
+                    <th class="w20">姓名：</th>
+                    <td><input type="text" name="userName"/></td>
+                </tr>
+                <tr>
+                    <th class="w20">权限：</th>
+                    <td>
+                        <input type="radio" name="status" value="0"/>普通用户
+                        <input type="radio" name="status" value="1"/>管理员
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="w20">
+                        <input type="submit" value="修改"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>
