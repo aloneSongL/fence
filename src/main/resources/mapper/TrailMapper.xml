@@ -10,14 +10,15 @@
         <id column="time" property="time" jdbcType="TIMESTAMP"></id>
         <id column="status" property="status" jdbcType="CHAR"></id>
         <id column="userId" property="userId" jdbcType="BIGINT"></id>
+<!--        <id column="coordinate" property="coordinate" jdbcType="VARCHAR"></id>-->
     </resultMap>
     <select id="selectAll" resultMap="TrailMap">
-        select id,locationId,`time`,status,userId from trail ORDER BY `time`
+        select * from trail ORDER BY `time`
     </select>
 
 <!--    List<Trail> selectById(Integer locationId);-->
     <select id="selectById" resultMap="TrailMap">
-        select id,locationId,`time`,status,userId from trail where locationId = #{locationId} ORDER BY `time`
+        select * from trail where locationId = #{locationId} ORDER BY `time`
     </select>
 
 <!--    int delete(Long id);-->
@@ -29,4 +30,53 @@
     <insert id="add" parameterType="com.bs.fence.entity.Trail">
         insert into trail(locationId,time,status,userId) values (#{locationId}, #{time}, #{status}, #{userId});
     </insert>
+
+<!--    List<Location> selectAllNew();-->
+    <select id="selectAllNew" resultMap="TrailMap">
+        SELECT b.id,b.locationId,b.time,b.userId,b.status
+        FROM (
+            SELECT userId,MAX(TIME) AS `time`
+            FROM trail
+            GROUP BY userId
+            ) a
+        LEFT JOIN trail b
+        ON a.userId = b.userId AND a.time = b.time;
+    </select>
+
+<!--    Location selectNewById;-->
+    <select id="selectNewById" parameterType="Long" resultMap="com.bs.fence.entity.Trail">
+        SELECT * FROM trail WHERE userId = #{userId}
+        ORDER BY TIME DESC
+        LIMIT 1;
+    </select>
+
+<!--    List<Location> selectInTime(Timestamp beforeTime, Timestamp afterTime);-->
+    <select id="selectInTime">
+        select * from trail where time between #{beforeTime} and #{afterTime};
+    </select>
+
+<!--    List<Location> selectInTimeById(@Param("userId") Long userId,-->
+<!--    @Param("beforeTime") Timestamp beforeTime,-->
+<!--    @Param("afterTime") Timestamp afterTime);-->
+    <select id="selectInTimeById">
+        select * from trail where userId = #{userId} and time between #{beforeTime} and #{afterTime};
+    </select>
+
+<!--List<UserDistribution> selectSortCount();-->
+    <resultMap id="sortCount" type="com.bs.fence.dto.UserDistribution">
+        <id column="sort" property="sort" jdbcType="CHAR"></id>
+        <id column="count" property="count" jdbcType="INTEGER"></id>
+    </resultMap>
+    <select id="selectSortCount" resultMap="sortCount">
+        SELECT sort,COUNT(1) as count
+        FROM(
+                SELECT b.locationId,b.time,b.userId,b.status,b.coordinate
+                FROM (SELECT userId,MAX(TIME) AS TIME FROM trail GROUP BY userId) a
+                         LEFT JOIN trail b
+                                   ON a.userId = b.userId AND a.time = b.time
+            ) c LEFT JOIN location ON c.locationId = location.id
+        GROUP BY sort
+    </select>
+
+
 </mapper>

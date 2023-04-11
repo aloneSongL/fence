@@ -1,6 +1,7 @@
 package com.bs.fence.controller;
 
 import com.bs.fence.dto.Point;
+import com.bs.fence.dto.UserDistribution;
 import com.bs.fence.dto.WxDto;
 import com.bs.fence.entity.Location;
 import com.bs.fence.service.TrailService;
@@ -55,5 +56,12 @@ public class TrailController {
     public List<Location> inPolygon(Point point){
         List<Location> locations = trailService.inPolygon(point);
         return locations;
+    }
+
+    //目前各区人员分布
+    @GetMapping("/sortCount")
+    public String sortCount(Model model){
+        trailService.selectSortCount(model);
+        return "trail_analyse";
     }
 }

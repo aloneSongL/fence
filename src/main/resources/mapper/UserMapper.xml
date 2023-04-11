@@ -39,4 +39,9 @@
     <insert id="add" parameterType="com.bs.fence.entity.User">
         insert into user(userId,status,userName) values (#{userId},#{status},#{userName});
     </insert>
+
+<!--    int userCount();-->
+    <select id="userCount" resultType="Integer">
+        select count(1) from user where status = '0';
+    </select>
 </mapper>

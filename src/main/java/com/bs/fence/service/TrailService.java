@@ -1,6 +1,7 @@
 package com.bs.fence.service;
 
 import com.bs.fence.dto.Point;
+import com.bs.fence.dto.UserDistribution;
 import com.bs.fence.dto.WxDto;
 import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
@@ -36,4 +37,18 @@ public interface TrailService {
 
     //判断用户是否通过某围栏
     WxDto monitor(String userId, String locations, Point point);
+
+    //查询每个用户最新的一条记录
+    int selectAllNew(Model model);
+
+    //查询某个用户最新的一条记录
+    int selectNewById(Long userId, Model model);
+
+    //查询某一个时间段内的记录
+    int selectInTime(Model model);
+
+    //统计目前学校各区人员分布
+    int selectSortCount(Model model);
+
+    //统计学校某一时间人员分布
 }

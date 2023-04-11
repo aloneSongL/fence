@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
                 isLogin.setPath("/");
                 response.addCookie(isLogin);
                 isLogin.setMaxAge(3600);
+
                 locationService.selectAll(model);
                 model.addAttribute("userId", result.getId());
                 return result.getId();

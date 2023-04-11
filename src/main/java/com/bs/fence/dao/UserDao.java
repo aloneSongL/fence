@@ -27,4 +27,7 @@ public interface UserDao {
 
     //添加用户
     int add(User user);
+
+    //查询普通用户数量
+    int userCount();
 }

@@ -2,10 +2,7 @@ package com.bs.fence.service.impl;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.bs.fence.dao.TrailDao;
-import com.bs.fence.dto.Page;
-import com.bs.fence.dto.Point;
-import com.bs.fence.dto.TrailDto;
-import com.bs.fence.dto.WxDto;
+import com.bs.fence.dto.*;
 import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
 import com.bs.fence.service.LocationService;
@@ -239,6 +236,33 @@ public class TrailServiceImpl implements TrailService{
         wxDto.setStatus("200");
         wxDto.setLocations(inPolygon);
         return wxDto;
+    }
+
+    @Override
+    public int selectAllNew(Model model) {
+        return 0;
+    }
+
+    @Override
+    public int selectNewById(Long userId, Model model) {
+        return 0;
+    }
+
+    @Override
+    public int selectInTime(Model model) {
+        return 0;
+    }
+
+    /**
+    @author sjx
+    @Description 人员分区统计
+    @since 2023-04-11 18-13
+    */
+    @Override
+    public int selectSortCount(Model model) {
+        List<UserDistribution> sortCount = trailDao.selectSortCount();
+        model.addAttribute("sortCount",sortCount);
+        return 1;
     }
 
     /**
