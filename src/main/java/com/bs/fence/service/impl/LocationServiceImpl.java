@@ -58,7 +58,7 @@ public class LocationServiceImpl implements LocationService {
         PageHelper.startPage(1, 8);
         List<Location> locations = locationDao.selectAll();
         PageInfo pageInfo = new PageInfo(locations);
-        Page page = DtoUtils.Pages(pageInfo);
+        Page page = DtoUtils.pages(pageInfo);
         if(locations.size() == 0){
             return 0;
         }
@@ -94,7 +94,7 @@ public class LocationServiceImpl implements LocationService {
         }
         List<Location> locations = locationDao.selectAll();
         PageInfo pageInfo = new PageInfo(locations);
-        Page page = DtoUtils.Pages(pageInfo);
+        Page page = DtoUtils.pages(pageInfo);
         if(locations.size() == 0){
             return 0;
         }
@@ -111,6 +111,11 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public List<Location> selectAll() {
         return locationDao.queryAll();
+    }
+
+    @Override
+    public Integer selectByName(String name) {
+        return locationDao.selectByName(name);
     }
 
 

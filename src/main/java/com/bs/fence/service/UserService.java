@@ -1,5 +1,6 @@
 package com.bs.fence.service;
 
+import com.bs.fence.entity.Location;
 import com.bs.fence.entity.User;
 import org.springframework.ui.Model;
 
@@ -33,4 +34,10 @@ public interface UserService {
 
     //添加用户
     int add(User user);
+
+    //查询用户总人数
+    int userCount(Model model);
+
+    //根据用户姓名查询id
+    Long selectIdByName(String name);
 }

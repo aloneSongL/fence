@@ -53,4 +53,9 @@
     <select id="queryAll" resultMap="LocationResultMap">
         select id,coordinate,description from location where is_Monitor = '1';
     </select>
+
+<!--    Integer selectByName(String name);-->
+    <select id="selectByName" resultType="Integer">
+        select id from location where description = #{name};
+    </select>
 </mapper>

@@ -29,4 +29,49 @@
     <insert id="add" parameterType="com.bs.fence.entity.Trail">
         insert into trail(locationId,time,status,userId) values (#{locationId}, #{time}, #{status}, #{userId});
     </insert>
+
+<!--    int selectSortCount();-->
+    <resultMap id="sortCount" type="com.bs.fence.dto.UserDistribution">
+        <id column="sort" property="sort" jdbcType="CHAR"></id>
+        <id column="count" property="count" jdbcType="INTEGER"></id>
+    </resultMap>
+    <select id="selectSortCount" resultMap="sortCount">
+        SELECT sort,COUNT(1) as count
+        FROM(
+            SELECT b.locationId,b.time,b.userId,b.status,b.coordinate
+            FROM (SELECT userId,MAX(TIME) AS TIME FROM trail GROUP BY userId) a
+            LEFT JOIN trail b
+            ON a.userId = b.userId AND a.time = b.time
+            ) c LEFT JOIN location ON c.locationId = location.id
+        GROUP BY sort;
+    </select>
+
+    <!--    List<Location> selectInTime(@Param("userName") String userName,-->
+    <!--    @Param("beforeTime") Timestamp beforeTime,-->
+    <!--    @Param("afterTime") Timestamp afterTime);-->
+    <resultMap id="userTrailMap" type="com.bs.fence.entity.Trail">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <id column="locationId" property="locationId" jdbcType="INTEGER"></id>
+        <id column="time" property="time" jdbcType="TIMESTAMP"></id>
+        <id column="status" property="status" jdbcType="CHAR"></id>
+        <id column="userId" property="userId" jdbcType="BIGINT"></id>
+        <id column="coordinate" property="coordinate" jdbcType="VARCHAR"></id>
+    </resultMap>
+    <select id="selectInTime" resultMap="userTrailMap">
+        select * from trail
+        <where>
+            <if test="userId != null">
+                userName = #{userName}
+            </if>
+            <if test="locationId != null">
+                and locationId = #{locationId}
+            </if>
+            <if test="beforeTime != null">
+                and time >= #{beforeTime}
+            </if>
+            <if test="afterTime != null">
+                and time &lt;= #{afterTime}
+            </if>
+        </where>
+    </select>
 </mapper>

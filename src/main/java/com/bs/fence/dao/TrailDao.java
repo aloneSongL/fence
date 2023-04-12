@@ -1,8 +1,12 @@
 package com.bs.fence.dao;
 
+import com.bs.fence.dto.UserDistribution;
+import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -24,4 +28,15 @@ public interface TrailDao {
 
     //插入记录
     int add(Trail trail);
+
+    //统计目前学校各区人员分布
+    List<UserDistribution> selectSortCount();
+
+    //查询某个用户某个时间段在某处的记录
+    List<Trail> selectInTime(@Param("locationId") Integer locationId,
+                                @Param("userId") Long userName,
+                                @Param("beforeTime") Timestamp beforeTime,
+                                @Param("afterTime") Timestamp afterTime);
+
+
 }

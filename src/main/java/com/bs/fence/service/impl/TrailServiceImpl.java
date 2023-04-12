@@ -2,10 +2,7 @@ package com.bs.fence.service.impl;
 
 import com.alibaba.druid.sql.visitor.functions.Char;
 import com.bs.fence.dao.TrailDao;
-import com.bs.fence.dto.Page;
-import com.bs.fence.dto.Point;
-import com.bs.fence.dto.TrailDto;
-import com.bs.fence.dto.WxDto;
+import com.bs.fence.dto.*;
 import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
 import com.bs.fence.service.LocationService;
@@ -53,27 +50,9 @@ public class TrailServiceImpl implements TrailService{
         PageHelper.startPage(pageNo, 8);
         List<Trail> result = trailDao.selectAll();
         PageInfo pageInfo = new PageInfo(result);
-        Page page = DtoUtils.Pages(pageInfo);
-
-        List<TrailDto> trails = new ArrayList<>();
-        for(Trail trail : result) {
-            TrailDto trailDto = new TrailDto();
-            //获取位置信息
-            Integer locationId = trail.getLocationId();
-            String description = locationService.selectLocation(locationId);
-            trailDto.setLocation(description);
-            //获取用户姓名
-            Long userId = trail.getUserId();
-            String userName = userService.selectName(userId);
-            trailDto.setUserName(userName);
-
-            trailDto.setId(trail.getId());
-            trailDto.setStatus(trail.getStatus());
-            trailDto.setTime(trail.getTime());
-
-            trails.add(trailDto);
-        }
-
+        Page page = DtoUtils.pages(pageInfo);
+        //数据转换
+        List<TrailDto> trails = trailDto(result);
         model.addAttribute("trails", trails);
         model.addAttribute("page", page);
         return 1;
@@ -81,29 +60,12 @@ public class TrailServiceImpl implements TrailService{
 
     @Override
     public int selectById(Model model, Integer locationId) {
-        PageHelper.startPage(1, 10);
+        PageHelper.startPage(1, 8);
         List<Trail> result = trailDao.selectById(locationId);
         PageInfo pageInfo = new PageInfo(result);
-        Page page = DtoUtils.Pages(pageInfo);
-
-        List<TrailDto> trails = new ArrayList<>();
-        for(Trail trail : result) {
-            TrailDto trailDto = new TrailDto();
-            //获取位置信息
-            Integer location = trail.getLocationId();
-            String description = locationService.selectLocation(location);
-            trailDto.setLocation(description);
-            //获取用户姓名
-            Long userId = trail.getUserId();
-            String userName = userService.selectName(userId);
-            trailDto.setUserName(userName);
-
-            trailDto.setId(trail.getId());
-            trailDto.setStatus(trail.getStatus());
-            trailDto.setTime(trail.getTime());
-
-            trails.add(trailDto);
-        }
+        Page page = DtoUtils.pages(pageInfo);
+        //数据转换
+        List<TrailDto> trails = trailDto(result);
         model.addAttribute("trails", trails);
         model.addAttribute("page", page);
         return 1;
@@ -241,6 +203,29 @@ public class TrailServiceImpl implements TrailService{
         return wxDto;
     }
 
+    //学校各分区人员分布情况
+    @Override
+    public int selectSortCount(Model model) {
+        List<UserDistribution> sortCount = trailDao.selectSortCount();
+        model.addAttribute("sortCount", sortCount);
+        return 1;
+    }
+
+    @Override
+    public int selectInTime(String location, String userName, String beforeTime, String afterTime, Model model) {
+        Integer locationId = locationService.selectByName(location);
+        Long userId = userService.selectIdByName(userName);
+        PageHelper.startPage(1, 8);
+        List<Trail> result = trailDao.selectInTime(locationId, userId, Timestamp.valueOf(beforeTime), Timestamp.valueOf(afterTime));
+        PageInfo<Trail> pageInfo = new PageInfo<>(result);
+        //数据转换
+        List<TrailDto> trails = trailDto(result);
+        Page page = DtoUtils.pages(pageInfo);
+        model.addAttribute("page", page);
+        model.addAttribute("trails", trails);
+        return 1;
+    }
+
     /**
     @author sjx
     @Description 用户位置变化，当locations1为之前的位置时，返回的为出；当locations2为之后的位置时，返回的为进
@@ -266,5 +251,33 @@ public class TrailServiceImpl implements TrailService{
         }
         //用户离开了学校或进入学校
         return  locations1;
+    }
+
+    /**
+    @author sjx
+    @Description 将人员流动信息里面的id转换成具体信息
+    @since 2023-04-12 14-15
+    */
+    private List<TrailDto> trailDto(List<Trail> list){
+        List<TrailDto> trails = new ArrayList<>();
+        for(Trail trail : list) {
+            TrailDto trailDto = new TrailDto();
+            //获取位置信息
+            Integer location = trail.getLocationId();
+            String description = locationService.selectLocation(location);
+            trailDto.setLocation(description);
+            //获取用户姓名
+            Long userId = trail.getUserId();
+            String userName = userService.selectName(userId);
+            trailDto.setUserName(userName);
+
+            trailDto.setId(trail.getId());
+            trailDto.setStatus(trail.getStatus());
+            trailDto.setTime(trail.getTime());
+
+            trails.add(trailDto);
+        }
+
+        return trails;
     }
 }

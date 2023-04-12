@@ -27,4 +27,10 @@ public interface UserDao {
 
     //添加用户
     int add(User user);
+
+    //查询用户总人数
+    int userCount();
+
+    //根据姓名查询用户id
+    Long selectIdByName(String name);
 }

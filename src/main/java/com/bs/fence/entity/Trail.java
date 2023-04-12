@@ -22,4 +22,5 @@ public class Trail {
     private Timestamp time;
     private Character status;
     private Long userId;
+    private String coordinate;
 }

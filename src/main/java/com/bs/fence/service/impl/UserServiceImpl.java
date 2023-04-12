@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(1, 8);
         List<User> users = userDao.selectAll();
         PageInfo pageInfo = new PageInfo(users);
-        Page page = DtoUtils.Pages(pageInfo);
+        Page page = DtoUtils.pages(pageInfo);
 
         model.addAttribute("users", users);
         model.addAttribute("page", page);
@@ -97,7 +97,7 @@ public class UserServiceImpl implements UserService {
         }
         List<User> users = userDao.selectAll();
         PageInfo pageInfo = new PageInfo(users);
-        Page page = DtoUtils.Pages(pageInfo);
+        Page page = DtoUtils.pages(pageInfo);
         if(users.size() == 0){
             return 0;
         }
@@ -115,5 +115,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public int add(User user) {
         return userDao.add(user);
+    }
+
+    @Override
+    public int userCount(Model model) {
+        int userCount = userDao.userCount();
+        model.addAttribute("userCount", userCount);
+        return 1;
+    }
+
+    @Override
+    public Long selectIdByName(String name) {
+        return userDao.selectIdByName(name);
     }
 }

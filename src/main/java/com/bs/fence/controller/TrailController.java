@@ -4,6 +4,7 @@ import com.bs.fence.dto.Point;
 import com.bs.fence.dto.WxDto;
 import com.bs.fence.entity.Location;
 import com.bs.fence.service.TrailService;
+import com.bs.fence.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,8 @@ public class TrailController {
 
     @Resource
     TrailService trailService;
+    @Resource
+    UserService userService;
 
     @GetMapping("/select")
     public String select(Model model){
@@ -55,5 +58,20 @@ public class TrailController {
     public List<Location> inPolygon(Point point){
         List<Location> locations = trailService.inPolygon(point);
         return locations;
+    }
+
+    //人员去向分析页面
+    @RequestMapping("/trailAnalyse")
+    public String userAnalyse(Model model){
+        trailService.selectSortCount(model);
+        userService.userCount(model);
+        return "trail_Analyse";
+    }
+
+    //查询某个用户某段时间在某处的记录
+    @PostMapping("/selectInTimeByName")
+    public String selectInTimeByName(String location, String userName, String beforeTime, String afterTime, Model model){
+        trailService.selectInTime(location, userName, beforeTime, afterTime, model);
+        return "trail";
     }
 }

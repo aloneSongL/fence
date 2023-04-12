@@ -59,9 +59,5 @@ public class PageController {
         return "user_edit";
     }
 
-    //人员去向分析页面
-    @RequestMapping("/trailAnalyse")
-    public String userAnalyse(){
-        return "trail_Analyse";
-    }
+
 }

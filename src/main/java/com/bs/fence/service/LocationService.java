@@ -42,4 +42,7 @@ public interface LocationService {
 
     //查询被监控的位置信息
     List<Location> selectAll();
+
+    //根据名称查找围栏信息
+    Integer selectByName(String name);
 }

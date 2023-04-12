@@ -1,6 +1,8 @@
 package com.bs.fence.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author sjx
@@ -8,6 +10,8 @@ import lombok.Data;
  * @create 2023-03-08-5:38
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Page {
 ////测试PageInfo全部属性
 ////PageInfo包含了非常全面的分页属性

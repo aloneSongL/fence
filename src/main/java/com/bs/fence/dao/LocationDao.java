@@ -39,4 +39,7 @@ public interface LocationDao {
 
     //查询被监控的位置信息
     List<Location> queryAll();
+
+    //根据名称查找围栏信息
+    Integer selectByName(String name);
 }
