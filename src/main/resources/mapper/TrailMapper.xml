@@ -32,18 +32,18 @@
 
 <!--    int selectSortCount();-->
     <resultMap id="sortCount" type="com.bs.fence.dto.UserDistribution">
-        <id column="sort" property="sort" jdbcType="CHAR"></id>
+        <id column="areaId" property="areaId" jdbcType="INTEGER"></id>
         <id column="count" property="count" jdbcType="INTEGER"></id>
     </resultMap>
     <select id="selectSortCount" resultMap="sortCount">
-        SELECT sort,COUNT(1) as count
+        SELECT areaId,COUNT(1) as count
         FROM(
             SELECT b.locationId,b.time,b.userId,b.status,b.coordinate
             FROM (SELECT userId,MAX(TIME) AS TIME FROM trail GROUP BY userId) a
             LEFT JOIN trail b
             ON a.userId = b.userId AND a.time = b.time
             ) c LEFT JOIN location ON c.locationId = location.id
-        GROUP BY sort;
+        GROUP BY areaId;
     </select>
 
     <!--    List<Location> selectInTime(@Param("userName") String userName,-->

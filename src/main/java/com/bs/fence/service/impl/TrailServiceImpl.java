@@ -131,7 +131,7 @@ public class TrailServiceImpl implements TrailService{
         }
         //判断用户是否第一次发起定位，如果是则返回目前所在区域，
         //否则返回位置变化信息及更新目前所在区域
-        if("[]".equals(locations)) {
+        if("[]".equals(locations) || locations == null) {
                 List<Location> list = inPolygon(point);
                 if(list.size() == 0){
                     wxDto.setMsg("目前在校外");

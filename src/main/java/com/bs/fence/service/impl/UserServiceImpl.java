@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
                 isLogin.setDomain("songlovefree.top");
                 isLogin.setPath("/");
                 response.addCookie(isLogin);
-                isLogin.setMaxAge(3600);
+//                isLogin.setMaxAge(-1);
                 locationService.selectAll(model);
                 model.addAttribute("userId", result.getId());
                 return result.getId();

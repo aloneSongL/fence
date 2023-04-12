@@ -52,14 +52,6 @@ public class TrailController {
         return trailService.monitor(userId, locations, point);
     }
 
-    //客户端查询目前所在区域
-    @PostMapping("/inPolygon")
-    @ResponseBody
-    public List<Location> inPolygon(Point point){
-        List<Location> locations = trailService.inPolygon(point);
-        return locations;
-    }
-
     //人员去向分析页面
     @RequestMapping("/trailAnalyse")
     public String userAnalyse(Model model){
