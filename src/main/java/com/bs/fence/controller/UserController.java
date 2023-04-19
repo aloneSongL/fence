@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -26,10 +28,10 @@ public class UserController {
 
     //web管理页面登录
     @PostMapping("/select")
-    public String register(User user, ServletResponse servletResponse,Model model) {
-        Long result = userService.register(user, servletResponse, model);
+    public String register(User user, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model) {
+        Long result = userService.register(user, httpServletRequest, httpServletResponse,model);
         if(result > 0L){
-            return "location_manage";
+            return "redirect:/location/select";
         }else{
             return "register";
         }

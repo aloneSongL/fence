@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -66,4 +67,13 @@ public class TrailController {
         trailService.selectInTime(location, userName, beforeTime, afterTime, model);
         return "trail";
     }
+
+    //查询所有用户所处位置信息可视化
+    @GetMapping("/selectAllUserNow")
+    public String  selectAllUserNow(HttpServletRequest request) {
+        trailService.selectAllUserNow(request);
+        return "redirect:/page/map";
+    }
+
+
 }

@@ -7,6 +7,7 @@ import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -43,4 +44,7 @@ public interface TrailService {
 
     //查询某个用户某个时间段在某处的记录
     int selectInTime(String location, String userName, String beforeTime, String afterTime, Model model);
+
+    //查询所有用户目前所处位置信息
+    int selectAllUserNow(HttpServletRequest request);
 }

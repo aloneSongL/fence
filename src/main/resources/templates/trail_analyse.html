@@ -5,6 +5,7 @@
     <script type="text/javascript" th:src="@{/js/index.js}"></script>
 </head>
 <body>
+<div type="hidden" id="TrailList"></div>
 <div>
     <table>
         <tr>
@@ -15,7 +16,7 @@
             <th colspan="2">暂无数据</th>
         </tr>
         <tr th:unless="${#lists.isEmpty(sortCount)}" th:each="s : ${sortCount}">
-            <th th:text="${s.sort}"></th>
+            <th th:text="${s.areaId}"></th>
             <th th:text="${s.count}"></th>
         </tr>
         <tr>
@@ -23,6 +24,12 @@
             <th th:text="${userCount}"></th>
         </tr>
     </table>
+
+    <div>
+        <a th:href="@{/trail/selectAllUserNow}">
+            <button type="button">详细数据</button>
+        </a>
+    </div>
 </div>
 </body>
 </html>

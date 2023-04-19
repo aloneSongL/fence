@@ -21,6 +21,7 @@
 <body>
 <div type="hidden" id="locationId" th:value="${locationId}"></div>
 <div type="hidden" id="pageNo" th:value="${pageNo}"></div>
+<div type="hidden" id="userLocation" th:value="${userLocation}"></div>
 
 <ul class = "drawing-panel">
 <!--    <li class="bmap-btn bmap-marker" id="marker" onclick="draw(this)"></li>-->
@@ -70,4 +71,8 @@
         labelOptions: labelOptions,      // label样式
     });
 
+    var userLocation = document.getElementById("userLocation").getAttribute("value");
+    if(userLocation != null) {
+        drawPoint(userLocation);
+    };
 </script>

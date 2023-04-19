@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Page {
+public class PageDto {
 ////测试PageInfo全部属性
 ////PageInfo包含了非常全面的分页属性
 //assertEquals(1, page.getPageNum());

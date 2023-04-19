@@ -4,6 +4,7 @@ import com.bs.fence.entity.Location;
 import com.github.pagehelper.PageInfo;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
@@ -26,7 +27,7 @@ public interface LocationService {
     int update(Integer id, String description);
 
     //查询位置列表
-    int selectAll(Model model);
+    int selectAll(Model model, HttpServletRequest httpServletRequest);
 
     //根据id删除坐标
     int delCoordinateById(Integer id);
@@ -35,7 +36,7 @@ public interface LocationService {
     int isMonitorById(Integer id, Character isMonitor);
 
     //分页查询
-    int selectPage(Integer pageNo, Model model);
+    int selectPage(Integer pageNo, Model model, HttpServletRequest httpServletRequest);
 
     //根据id查询位置信息
     String selectLocation(Integer id);

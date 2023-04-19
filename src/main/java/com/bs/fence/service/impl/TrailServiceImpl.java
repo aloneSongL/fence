@@ -1,6 +1,6 @@
 package com.bs.fence.service.impl;
 
-import com.alibaba.druid.sql.visitor.functions.Char;
+import com.alibaba.druid.support.json.JSONUtils;
 import com.bs.fence.dao.TrailDao;
 import com.bs.fence.dto.*;
 import com.bs.fence.entity.Location;
@@ -9,9 +9,10 @@ import com.bs.fence.service.LocationService;
 import com.bs.fence.service.TrailService;
 import com.bs.fence.service.UserService;
 import com.bs.fence.utils.CoordinateChangeUtil;
-import com.bs.fence.utils.DtoUtils;
+import com.bs.fence.utils.PageUtils;
 import com.bs.fence.utils.MapUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.SneakyThrows;
@@ -20,9 +21,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
-import java.sql.Date;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,14 +44,14 @@ public class TrailServiceImpl implements TrailService{
     private UserService userService;
 
     @Override
-    public int selectPage(Integer pageNo,Model model) {
+    public int selectPage(Integer pageNo, Model model) {
         if(pageNo == 0){
             PageHelper.startPage(1, 8);
         }
         PageHelper.startPage(pageNo, 8);
         List<Trail> result = trailDao.selectAll();
         PageInfo pageInfo = new PageInfo(result);
-        Page page = DtoUtils.pages(pageInfo);
+        PageDto page = PageUtils.getPage(pageInfo);
         //数据转换
         List<TrailDto> trails = trailDto(result);
         model.addAttribute("trails", trails);
@@ -63,7 +64,7 @@ public class TrailServiceImpl implements TrailService{
         PageHelper.startPage(1, 8);
         List<Trail> result = trailDao.selectById(locationId);
         PageInfo pageInfo = new PageInfo(result);
-        Page page = DtoUtils.pages(pageInfo);
+        PageDto page = PageUtils.getPage(pageInfo);
         //数据转换
         List<TrailDto> trails = trailDto(result);
         model.addAttribute("trails", trails);
@@ -173,6 +174,7 @@ public class TrailServiceImpl implements TrailService{
                 Timestamp date = new Timestamp(System.currentTimeMillis());
                 trail.setTime(date);
                 trail.setUserId(id);
+                trail.setCoordinate(point.getLongitude() + "," + point.getLatitude());
                 //存储记录
                 add(trail);
                 msg = msg + "离开" + location.getDescription();
@@ -188,6 +190,7 @@ public class TrailServiceImpl implements TrailService{
                 Timestamp date = new Timestamp(System.currentTimeMillis());
                 trail.setTime(date);
                 trail.setUserId(id);
+                trail.setCoordinate(point.getLongitude() + "," + point.getLatitude());
                 //存储记录
                 add(trail);
                 msg = msg + "进入" + location.getDescription();
@@ -220,9 +223,20 @@ public class TrailServiceImpl implements TrailService{
         PageInfo<Trail> pageInfo = new PageInfo<>(result);
         //数据转换
         List<TrailDto> trails = trailDto(result);
-        Page page = DtoUtils.pages(pageInfo);
+        PageDto page = PageUtils.getPage(pageInfo);
         model.addAttribute("page", page);
         model.addAttribute("trails", trails);
+        return 1;
+    }
+
+    @SneakyThrows
+    @Override
+    public int selectAllUserNow(HttpServletRequest request) {
+        List<Trail> trails = trailDao.selectAllUserNow();
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(trails);
+        HttpSession session = request.getSession();
+        session.setAttribute("userLocation", jsonString);
         return 1;
     }
 

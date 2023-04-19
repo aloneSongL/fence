@@ -38,5 +38,6 @@ public interface TrailDao {
                                 @Param("beforeTime") Timestamp beforeTime,
                                 @Param("afterTime") Timestamp afterTime);
 
-
+    //查询所有用户目前所处位置信息
+    List<Trail> selectAllUserNow();
 }

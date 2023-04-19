@@ -2,15 +2,16 @@ package com.bs.fence.service.impl;
 
 import com.bs.fence.dao.LocationDao;
 import com.bs.fence.entity.Location;
-import com.bs.fence.dto.Page;
+import com.bs.fence.dto.PageDto;
 import com.bs.fence.service.LocationService;
-import com.bs.fence.utils.DtoUtils;
-import com.github.pagehelper.PageHelper;
+import com.bs.fence.utils.PageUtils;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -54,16 +55,11 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public int selectAll(Model model) {
-        PageHelper.startPage(1, 8);
-        List<Location> locations = locationDao.selectAll();
-        PageInfo pageInfo = new PageInfo(locations);
-        Page page = DtoUtils.pages(pageInfo);
-        if(locations.size() == 0){
-            return 0;
-        }
-        model.addAttribute("locations", locations);
-        model.addAttribute("page", page);
+    public int selectAll(Model model, HttpServletRequest httpServletRequest) {
+        List<Location> locationList = locationDao.selectAll();
+        HttpSession session = httpServletRequest.getSession();
+        session.setAttribute("locationList", locationList);
+        selectPage(1, model, httpServletRequest);
         return 1;
     }
 
@@ -86,19 +82,21 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public int selectPage(Integer pageNo, Model model) {
-        if(pageNo == 0){
-            PageHelper.startPage(1, 8);
-        }else {
-            PageHelper.startPage(pageNo, 8);
-        }
-        List<Location> locations = locationDao.selectAll();
-        PageInfo pageInfo = new PageInfo(locations);
-        Page page = DtoUtils.pages(pageInfo);
-        if(locations.size() == 0){
+    public int selectPage(Integer pageNo, Model model, HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        List<Location> locationList = (List<Location>)session.getAttribute("locationList");
+        if(locationList.size() == 0){
             return 0;
         }
-        model.addAttribute("locations", locations);
+        PageInfo pageInfo;
+        if(pageNo == 0){
+            pageInfo = PageUtils.pageHelperPlus(locationList, 1, 8);
+        }else {
+            pageInfo = PageUtils.pageHelperPlus(locationList, pageNo, 8);
+        }
+
+        PageDto page = PageUtils.getPage(pageInfo);
+        model.addAttribute("locations", pageInfo.getList());
         model.addAttribute("page", page);
         return 1;
     }

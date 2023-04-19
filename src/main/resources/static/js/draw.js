@@ -72,3 +72,18 @@ function draw(e) {
         });
     }
 }
+
+//绘制点
+function drawPoint(e){
+    var trailList = JSON.parse(e);
+    trailList.map(function (trail) {
+        var coordinate = trail.coordinate;
+        var index = coordinate.indexOf(",");
+        var lon = coordinate.substring(0,index);
+        var lat = coordinate.substring(index+1);
+        var marker = new BMapGL.Marker(new BMapGL.Point(lon,lat));
+        map.addOverlay(marker);
+    })
+
+}
+

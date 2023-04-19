@@ -5,6 +5,8 @@ import com.bs.fence.entity.User;
 import org.springframework.ui.Model;
 
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ import java.util.List;
 public interface UserService {
 
     //查询账户
-    Long register(User user, ServletResponse servletResponse, Model model);
+    Long register(User user, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Model model);
 
     //查询用户
     Long login(User user);

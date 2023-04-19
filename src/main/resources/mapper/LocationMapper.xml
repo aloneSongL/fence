@@ -29,9 +29,10 @@
         <id column="coordinate" property="coordinate" jdbcType="VARCHAR"></id>
         <id column="description" property="description" jdbcType="VARCHAR"></id>
         <id column="is_monitor" property="isMonitor" jdbcType="CHAR"></id>
+        <id column="areaId" property="areaId" jdbcType="INTEGER"></id>
     </resultMap>
     <select id="selectAll" resultMap="LocationResultMap">
-        select id,coordinate,description,is_monitor from location
+        select * from location
     </select>
 
 <!--    int delCoordinateById(Integer id);-->

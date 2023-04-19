@@ -27,7 +27,8 @@
 
 <!--    int add(Trail trail);-->
     <insert id="add" parameterType="com.bs.fence.entity.Trail">
-        insert into trail(locationId,time,status,userId) values (#{locationId}, #{time}, #{status}, #{userId});
+        insert into trail(locationId,time,status,userId,coordinate)
+        values (#{locationId}, #{time}, #{status}, #{userId}, #{coordinate});
     </insert>
 
 <!--    int selectSortCount();-->
@@ -38,7 +39,7 @@
     <select id="selectSortCount" resultMap="sortCount">
         SELECT areaId,COUNT(1) as count
         FROM(
-            SELECT b.locationId,b.time,b.userId,b.status,b.coordinate
+            SELECT DISTINCT b.locationId,b.time,b.userId,b.status,b.coordinate
             FROM (SELECT userId,MAX(TIME) AS TIME FROM trail GROUP BY userId) a
             LEFT JOIN trail b
             ON a.userId = b.userId AND a.time = b.time
@@ -74,4 +75,15 @@
             </if>
         </where>
     </select>
+
+<!--    List<Trail> selectAllUserNow();-->
+    <select id="selectAllUserNow" resultMap="userTrailMap">
+        SELECT DISTINCT b.locationId,b.time,b.userId,b.status,b.coordinate
+        FROM (
+                 SELECT userId,MAX(TIME) AS TIME
+                 FROM trail
+                 GROUP BY userId
+             ) a LEFT JOIN trail b ON a.userId = b.userId AND a.time = b.time;
+    </select>
+
 </mapper>

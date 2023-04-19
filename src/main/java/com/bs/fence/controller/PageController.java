@@ -1,9 +1,15 @@
 package com.bs.fence.controller;
 
+import com.bs.fence.entity.Location;
+import com.bs.fence.entity.Trail;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author sjx
@@ -26,6 +32,17 @@ public class PageController {
                       @PathVariable("pageNo") Integer pageNo, Model model){
         model.addAttribute("locationId", id);
         model.addAttribute("pageNo", pageNo);
+        return "map";
+    }
+
+    //百度地图页面，显示用户位置
+    @RequestMapping("/map")
+    public String map(HttpServletRequest request, Model model){
+        //拿到用户位置信息JSON串
+        String userLocation = (String)request.getSession().getAttribute("userLocation");
+        if(userLocation != null) {
+            model.addAttribute("userLocation", userLocation);
+        }
         return "map";
     }
 

@@ -16,6 +16,7 @@ public class Location {
     private String coordinate;
     private String description;
     private Character isMonitor;
+    private Integer areaId;
 
     public Location(){}
 
