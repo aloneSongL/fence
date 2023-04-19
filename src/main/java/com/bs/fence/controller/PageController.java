@@ -2,6 +2,9 @@ package com.bs.fence.controller;
 
 import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
+import com.bs.fence.utils.MapUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,9 +30,15 @@ public class PageController {
     }
 
     //电子围栏绘制页面
+    @SneakyThrows
     @RequestMapping("/map/{id}/{pageNo}")
     public String map(@PathVariable("id") Integer id,
-                      @PathVariable("pageNo") Integer pageNo, Model model){
+                      @PathVariable("pageNo") Integer pageNo,
+                      HttpServletRequest request, Model model){
+        List<Location> locations = (List<Location>)request.getSession().getAttribute("locationList");
+        ObjectMapper mapper = new ObjectMapper();
+        String locationListString = mapper.writeValueAsString(locations);
+        model.addAttribute("locations", locationListString);
         model.addAttribute("locationId", id);
         model.addAttribute("pageNo", pageNo);
         return "map";

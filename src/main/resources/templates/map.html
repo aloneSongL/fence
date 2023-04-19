@@ -22,6 +22,7 @@
 <div type="hidden" id="locationId" th:value="${locationId}"></div>
 <div type="hidden" id="pageNo" th:value="${pageNo}"></div>
 <div type="hidden" id="userLocation" th:value="${userLocation}"></div>
+<div type="hidden" id="locations" th:value="${locations}"></div>
 
 <ul class = "drawing-panel">
 <!--    <li class="bmap-btn bmap-marker" id="marker" onclick="draw(this)"></li>-->
@@ -71,8 +72,15 @@
         labelOptions: labelOptions,      // label样式
     });
 
+    //绘制用户位置
     var userLocation = document.getElementById("userLocation").getAttribute("value");
-    if(userLocation != null) {
+    if(userLocation != null && userLocation != ""){
         drawPoint(userLocation);
+    };
+
+    //电子围栏反绘制
+    var locations = document.getElementById("locations").getAttribute("value");
+    if(locations != null && locations != ""){
+        drawLocation(locations);
     };
 </script>

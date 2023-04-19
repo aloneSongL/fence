@@ -84,6 +84,51 @@ function drawPoint(e){
         var marker = new BMapGL.Marker(new BMapGL.Point(lon,lat));
         map.addOverlay(marker);
     })
-
 }
 
+//反绘制围栏
+function drawLocation(e){
+    var locationList = JSON.parse(e);
+    locationList.map(function (location){
+        var coordinateString = location.coordinate;
+        var coordinate = subCoordinate(coordinateString);
+        var polygon = new BMapGL.Polygon(coordinate, {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});
+        map.addOverlay(polygon);
+    })
+}
+
+//截取坐标
+function subCoordinate(e){
+    var coordinate = e;
+    var pointList = new Array();
+    var is_Loop = true;
+    while (is_Loop){
+        var index1 = coordinate.indexOf(",");
+        if(index1 >= 0){
+            //截取x
+            var string_lon = coordinate.substring(0, index1);
+            var lon = parseFloat(string_lon);
+            //字符串中首次出现;的位置
+            var index2 = coordinate.indexOf(";");
+            if(index2 == -1){
+                var string_lat = coordinate.substring(index1 + 1);
+                var lat = parseFloat(string_lat);
+                var point = new BMapGL.Point(lon,lat);
+                pointList.push(point);
+                break;
+            }
+            //截取y
+            var string_lat = coordinate.substring(index1 + 1, index2);
+            var lat = parseFloat(string_lat);
+
+            var point = new BMapGL.Point(lon, lat);
+            pointList.push(point);
+
+            //截取剩余部分重新赋值
+            coordinate = coordinate.substring(index2 + 1);
+        }else{
+            is_Loop = false;
+        }
+    }
+    return pointList;
+}
