@@ -19,13 +19,10 @@ import java.util.List;
 public interface TrailService {
 
     //查询所有轨迹
-    int selectAll(Model model);
-
-    //查询某一区域的轨迹
-    int selectById(Model model, Integer locationId);
+    int selectAll(Model model, HttpServletRequest request);
 
     //分页查询
-    int selectPage(Integer pageNo, Model model);
+    int selectPage(Integer pageNo, HttpServletRequest request, Model model);
 
     //删除轨迹
     int delete(Long id);
@@ -43,7 +40,7 @@ public interface TrailService {
     int selectSortCount(Model model);
 
     //查询某个用户某个时间段在某处的记录
-    int selectInTime(String location, String userName, String beforeTime, String afterTime, Model model);
+    int likeSelect(String location, String userName, String beforeTime, String afterTime, HttpServletRequest request, Model model);
 
     //查询所有用户目前所处位置信息
     int selectAllUserNow(HttpServletRequest request);

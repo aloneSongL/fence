@@ -33,7 +33,7 @@ public interface TrailDao {
     List<UserDistribution> selectSortCount();
 
     //查询某个用户某个时间段在某处的记录
-    List<Trail> selectInTime(@Param("locationId") Integer locationId,
+    List<Trail> likeSelect(@Param("locationId") Integer locationId,
                                 @Param("userId") Long userName,
                                 @Param("beforeTime") Timestamp beforeTime,
                                 @Param("afterTime") Timestamp afterTime);

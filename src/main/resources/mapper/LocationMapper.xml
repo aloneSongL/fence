@@ -59,4 +59,17 @@
     <select id="selectByName" resultType="Integer">
         select id from location where description = #{name};
     </select>
+
+<!--    List<Location> likeSelectByName(Location location);-->
+    <select id="likeSelectByName" parameterType="com.bs.fence.entity.Location" resultMap="LocationResultMap">
+        select * from location
+        <where>
+            <if test="areaId != null">
+                areaId = #{areaId}
+            </if>
+            <if test="description != null">
+                description like '%${description}%'
+            </if>
+        </where>
+    </select>
 </mapper>

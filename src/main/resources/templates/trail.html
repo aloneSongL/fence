@@ -16,7 +16,24 @@
         </div>
         <br>
         <div style="border:0px solid red;width:60%;margin-left:20%;text-align: right;">
-            <a th:href="@{/trail/trailAnalyse}" style="border:0px solid blue;margin-bottom:4px;">人员去向分析</a>
+            <div style="border: 0px;width:75%;margin-bottom:4px;text-align: right;float: left;">
+                <div>
+                    <form th:action="@{/trail/likeSelect}" method="post">
+                        <span style="float: left">位置:</span>
+                        <input type="text" name="locationName" style="width:15%;float: left;"/>
+                        <span style="float: left">姓名:</span>
+                        <input type="text" name="userName" style="width:15%;float: left;"/>
+                        <span style="float: left">起始时间:</span>
+                        <input type="text" name="startTime" style="width:10%;float: left;"/>
+                        <span style="float: left">结束时间:</span>
+                        <input type="text" name="endTime" style="width:10%;float: left;"/>
+                        <input type="submit" value="搜索" style="float: left;"/>
+                    </form>
+                </div>
+            </div>
+            <div style="border: 0px;width:25%;margin-bottom:4px;text-align: right;float: left">
+                <a th:href="@{/trail/trailAnalyse}" style="border:0px solid blue;margin-bottom:4px;">人员去向分析</a>
+            </div>
         </div>
         <table id="tbl_fruit">
             <tr>
@@ -55,7 +72,7 @@
                 </th>
             </tr>
         </table>
-        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center">
+        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center" th:unless="${#lists.isEmpty(trails)}">
             <div>
                 <a th:href="@{/trail/selectPage/}+${page.firstPage}">
                     <button type="button">首页</button>

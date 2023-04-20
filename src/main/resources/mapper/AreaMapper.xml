@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bs.fence.dao.AreaDao">
+
+    <resultMap id="areaMap" type="com.bs.fence.entity.Area">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <id column="name" property="name" jdbcType="VARCHAR"></id>
+    </resultMap>
+<!--    Area selectAreaById(Integer id);-->
+    <select id="selectAreaById" parameterType="Integer" resultMap="areaMap">
+        select * from area where id = #{id};
+    </select>
+
+<!--    Area selectAreaByName(String name);-->
+    <select id="selectAreaByName" parameterType="String" resultMap="areaMap">
+        select * from area where name = #{name};
+    </select>
+</mapper>

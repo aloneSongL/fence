@@ -46,4 +46,7 @@ public interface LocationService {
 
     //根据名称查找围栏信息
     Integer selectByName(String name);
+
+    //根据名称查找电子围栏信息，模糊查询
+    Integer likeSelect(String locationName, String areaName, HttpServletRequest request, Model model);
 }

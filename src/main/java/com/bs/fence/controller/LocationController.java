@@ -90,4 +90,13 @@ public class LocationController {
         locationService.selectPage(id, model, httpServletRequest);
         return "location_manage";
     }
+
+    //模糊查询电子围栏
+    @PostMapping("/likeSelect")
+    public String selectByName(String locationName, String areaName,HttpServletRequest httpServletRequest, Model model){
+        locationService.likeSelect(locationName, areaName, httpServletRequest, model);
+        return "location_manage";
+    }
+
+
 }

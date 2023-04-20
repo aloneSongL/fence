@@ -43,38 +43,39 @@ public class TrailServiceImpl implements TrailService{
     @Resource
     private UserService userService;
 
+    /**
+    @author sjx
+    @Description 统一分页
+    @since 2023-04-19 22-52
+    */
     @Override
-    public int selectPage(Integer pageNo, Model model) {
-        if(pageNo == 0){
-            PageHelper.startPage(1, 8);
+    public int selectPage(Integer pageNo, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        List<Location> trailList = (List<Location>)session.getAttribute("trailList");
+        if(trailList == null  || trailList.size() == 0){
+            model.addAttribute("trails", null);
+            return 1;
         }
-        PageHelper.startPage(pageNo, 8);
-        List<Trail> result = trailDao.selectAll();
-        PageInfo pageInfo = new PageInfo(result);
+        PageInfo pageInfo = null;
+        if(pageNo == 0){
+            pageInfo = PageUtils.pageHelperPlus(trailList, 1, 8);
+        }else {
+            pageInfo = PageUtils.pageHelperPlus(trailList, pageNo, 8);
+        }
+
         PageDto page = PageUtils.getPage(pageInfo);
-        //数据转换
-        List<TrailDto> trails = trailDto(result);
-        model.addAttribute("trails", trails);
+        model.addAttribute("trails", pageInfo.getList());
         model.addAttribute("page", page);
         return 1;
     }
 
     @Override
-    public int selectById(Model model, Integer locationId) {
-        PageHelper.startPage(1, 8);
-        List<Trail> result = trailDao.selectById(locationId);
-        PageInfo pageInfo = new PageInfo(result);
-        PageDto page = PageUtils.getPage(pageInfo);
-        //数据转换
-        List<TrailDto> trails = trailDto(result);
-        model.addAttribute("trails", trails);
-        model.addAttribute("page", page);
-        return 1;
-    }
-
-    @Override
-    public int selectAll(Model model) {
-        return selectPage(1, model);
+    public int selectAll(Model model, HttpServletRequest request) {
+        List<Trail> trails = trailDao.selectAll();
+        List<TrailDto> trailDtoList = trailDto(trails);
+        HttpSession session = request.getSession();
+        session.setAttribute("trailList", trailDtoList);
+        return selectPage(1, request, model);
     }
 
     @Override
@@ -215,17 +216,26 @@ public class TrailServiceImpl implements TrailService{
     }
 
     @Override
-    public int selectInTime(String location, String userName, String beforeTime, String afterTime, Model model) {
+    public int likeSelect(String location, String userName, String beforeTime, String afterTime, HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
         Integer locationId = locationService.selectByName(location);
         Long userId = userService.selectIdByName(userName);
-        PageHelper.startPage(1, 8);
-        List<Trail> result = trailDao.selectInTime(locationId, userId, Timestamp.valueOf(beforeTime), Timestamp.valueOf(afterTime));
-        PageInfo<Trail> pageInfo = new PageInfo<>(result);
-        //数据转换
-        List<TrailDto> trails = trailDto(result);
-        PageDto page = PageUtils.getPage(pageInfo);
-        model.addAttribute("page", page);
-        model.addAttribute("trails", trails);
+        Timestamp startTimestamp = null;
+        Timestamp endTimestamp = null;
+        if(beforeTime != null && beforeTime != ""){
+            startTimestamp = Timestamp.valueOf(beforeTime);
+        }
+        if(afterTime != null && afterTime != ""){
+            endTimestamp = Timestamp.valueOf(afterTime);
+        }
+        if(locationId == null && userId == null && startTimestamp == null && endTimestamp == null){
+            session.setAttribute("trailList", null);
+            return 0;
+        }
+        List<Trail> trails = trailDao.likeSelect(locationId, userId, startTimestamp, endTimestamp);
+        List<TrailDto> trailDtoList = trailDto(trails);
+        session.setAttribute("trailList", trailDtoList);
+        selectPage(1, request, model);
         return 1;
     }
 

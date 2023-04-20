@@ -28,22 +28,24 @@ public class TrailController {
     UserService userService;
 
     @GetMapping("/select")
-    public String select(Model model){
-        trailService.selectAll(model);
+    public String select(Model model, HttpServletRequest request){
+        trailService.selectAll(model, request);
         return "trail";
     }
 
     @GetMapping("/selectPage/{pageNo}")
-    public String selectPage(@PathVariable("pageNo") Integer pageNo, Model model){
-        trailService.selectPage(pageNo, model);
+    public String selectPage(@PathVariable("pageNo") Integer pageNo,
+                             HttpServletRequest request, Model model){
+        trailService.selectPage(pageNo, request,model);
         return "trail";
     }
 
     @GetMapping("/delete/{id}/{pageNo}")
     public String delete(@PathVariable("id") Long id,
-                         @PathVariable("pageNo") Integer pageNo, Model model){
+                         @PathVariable("pageNo") Integer pageNo,
+                         HttpServletRequest request, Model model){
         trailService.delete(id);
-        return selectPage(pageNo, model);
+        return selectPage(pageNo, request, model);
     }
 
     //客户端开启监控
@@ -62,9 +64,10 @@ public class TrailController {
     }
 
     //查询某个用户某段时间在某处的记录
-    @PostMapping("/selectInTimeByName")
-    public String selectInTimeByName(String location, String userName, String beforeTime, String afterTime, Model model){
-        trailService.selectInTime(location, userName, beforeTime, afterTime, model);
+    @PostMapping("/likeSelect")
+    public String likeSelect(String locationName, String userName,
+                             String startTime, String endTime, HttpServletRequest request, Model model){
+        trailService.likeSelect(locationName, userName, startTime, endTime, request, model);
         return "trail";
     }
 

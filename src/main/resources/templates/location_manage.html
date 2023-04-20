@@ -15,21 +15,36 @@
             <a th:href="@{/user/selectAll}" style="border:0px solid blue;margin-bottom:4px;">用户管理</a>
         </div>
         <br>
-        <div style="border:0px solid red;width:60%;margin-left:20%;text-align: right;">
-            <a th:href="@{/page/add}" style="border:0px solid blue;margin-bottom:4px;">添加电子围栏</a>
+        <div style="border:0px solid red;width:60%;margin-left:20%;">
+            <div style="border: 0px;width:75%;margin-bottom:4px;text-align: right;float: left;">
+                <div>
+                    <form th:action="@{/location/likeSelect}" method="post">
+                        <span style="float: left">分区:</span>
+                        <input type="text" name="areaName" style="width:15%;float: left;"/>
+                        <span style="float: left">位置:</span>
+                        <input type="text" name="locationName" style="width:15%;float: left;"/>
+                        <input type="submit" value="搜索" style="float: left;"/>
+                    </form>
+                </div>
+            </div>
+            <div style="border: 0px;width:25%;margin-bottom:4px;text-align: right;float: left">
+                <a th:href="@{/page/add}">添加电子围栏</a>
+            </div>
         </div>
             <table id="tbl_fruit" th:fragment="location_load">
                 <tr>
                     <th class="w20">位置</th>
+                    <th class="w20">分区</th>
                     <th class="w20">坐标</th>
                     <th class="w20">是否监控</th>
                     <th class="w20">操作</th>
                 </tr>
                 <tr th:if="${#lists.isEmpty(locations)}">
-                    <th colspan="4">暂无数据</th>
+                    <th colspan="5">暂无数据</th>
                 </tr>
                 <tr th:unless="${#lists.isEmpty(locations)}" th:each="location : ${locations}">
                     <th><a th:text="${location.description}">教学楼</a></th>
+                    <th><a th:text="${location.areaName}"</th>
                     <th th:if="${#strings.isEmpty(location.coordinate)}">
                         <a th:href="@{/page/map/}+${location.id}+'/'+${page.pageNum}">
                             <button type="button">添加</button>

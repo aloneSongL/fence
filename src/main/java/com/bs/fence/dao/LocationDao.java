@@ -40,6 +40,9 @@ public interface LocationDao {
     //查询被监控的位置信息
     List<Location> queryAll();
 
-    //根据名称查找围栏信息
+    //根据名称查找围栏id
     Integer selectByName(String name);
+
+    //根据名称模糊查询围栏信息
+    List<Location> likeSelectByName(Location location);
 }

@@ -58,11 +58,11 @@
         <id column="userId" property="userId" jdbcType="BIGINT"></id>
         <id column="coordinate" property="coordinate" jdbcType="VARCHAR"></id>
     </resultMap>
-    <select id="selectInTime" resultMap="userTrailMap">
+    <select id="likeSelect" resultMap="userTrailMap">
         select * from trail
         <where>
             <if test="userId != null">
-                userName = #{userName}
+                userId = #{userId}
             </if>
             <if test="locationId != null">
                 and locationId = #{locationId}
