@@ -100,35 +100,39 @@ function drawLocation(e){
 //截取坐标
 function subCoordinate(e){
     var coordinate = e;
-    var pointList = new Array();
-    var is_Loop = true;
-    while (is_Loop){
-        var index1 = coordinate.indexOf(",");
-        if(index1 >= 0){
-            //截取x
-            var string_lon = coordinate.substring(0, index1);
-            var lon = parseFloat(string_lon);
-            //字符串中首次出现;的位置
-            var index2 = coordinate.indexOf(";");
-            if(index2 == -1){
-                var string_lat = coordinate.substring(index1 + 1);
+    if(coordinate != null && coordinate != ""){
+        var pointList = new Array();
+        var is_Loop = true;
+        while (is_Loop){
+            var index1 = coordinate.indexOf(",");
+            if(index1 >= 0){
+                //截取x
+                var string_lon = coordinate.substring(0, index1);
+                var lon = parseFloat(string_lon);
+                //字符串中首次出现;的位置
+                var index2 = coordinate.indexOf(";");
+                if(index2 == -1){
+                    var string_lat = coordinate.substring(index1 + 1);
+                    var lat = parseFloat(string_lat);
+                    var point = new BMapGL.Point(lon,lat);
+                    pointList.push(point);
+                    break;
+                }
+                //截取y
+                var string_lat = coordinate.substring(index1 + 1, index2);
                 var lat = parseFloat(string_lat);
-                var point = new BMapGL.Point(lon,lat);
+
+                var point = new BMapGL.Point(lon, lat);
                 pointList.push(point);
-                break;
+
+                //截取剩余部分重新赋值
+                coordinate = coordinate.substring(index2 + 1);
+            }else{
+                is_Loop = false;
             }
-            //截取y
-            var string_lat = coordinate.substring(index1 + 1, index2);
-            var lat = parseFloat(string_lat);
-
-            var point = new BMapGL.Point(lon, lat);
-            pointList.push(point);
-
-            //截取剩余部分重新赋值
-            coordinate = coordinate.substring(index2 + 1);
-        }else{
-            is_Loop = false;
         }
+        return pointList;
     }
-    return pointList;
+
+    return 0;
 }

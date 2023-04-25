@@ -223,9 +223,11 @@ public class TrailServiceImpl implements TrailService{
         Timestamp startTimestamp = null;
         Timestamp endTimestamp = null;
         if(beforeTime != null && beforeTime != ""){
+            beforeTime = beforeTime + ":00";    //日历控件只能精确到分，数据库时间精确到秒，需要补充
             startTimestamp = Timestamp.valueOf(beforeTime);
         }
         if(afterTime != null && afterTime != ""){
+            afterTime = afterTime + ":00";
             endTimestamp = Timestamp.valueOf(afterTime);
         }
         if(locationId == null && userId == null && startTimestamp == null && endTimestamp == null){

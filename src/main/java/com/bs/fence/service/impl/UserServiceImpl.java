@@ -35,6 +35,8 @@ public class UserServiceImpl implements UserService {
     @Resource
     LocationService locationService;
 
+    private final String  COOKIE_NAME = "is_Login";
+
     @Override
     public Long register(User user, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model) {
         if("".equals(user.getUserId()) || "".equals(user.getPassword())){
@@ -47,10 +49,10 @@ public class UserServiceImpl implements UserService {
             if(result.getStatus() == '1'){
                 HttpSession session = httpServletRequest.getSession();
                 session.setAttribute("userId", result.getId());
-                Cookie isLogin = new Cookie("isLogin", DigestUtils.md5DigestAsHex("yes".getBytes()));
+                Cookie isLogin = new Cookie(COOKIE_NAME, DigestUtils.md5DigestAsHex("yes".getBytes()));
                 isLogin.setDomain("songlovefree.top");
                 isLogin.setPath("/");
-                isLogin.setMaxAge(3600);
+                isLogin.setMaxAge(-1);
                 httpServletResponse.addCookie(isLogin);
                 return result.getId();
             }
@@ -128,5 +130,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Long selectIdByName(String name) {
         return userDao.selectIdByName(name);
+    }
+
+    @Override
+    public int outLogin(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null && cookies.length > 0){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals(COOKIE_NAME)){
+                    cookie.setMaxAge(0);
+                }
+            }
+        }
+        return 1;
     }
 }
