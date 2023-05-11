@@ -16,7 +16,7 @@
             <th colspan="2">暂无数据</th>
         </tr>
         <tr th:unless="${#lists.isEmpty(sortCount)}" th:each="s : ${sortCount}">
-            <th th:text="${s.areaId}"></th>
+            <th th:text="${s.areaName}"></th>
             <th th:text="${s.count}"></th>
         </tr>
         <tr>

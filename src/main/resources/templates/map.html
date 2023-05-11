@@ -83,4 +83,10 @@
     if(locations != null && locations != ""){
         drawLocation(locations);
     };
+
+    // 绘制轨迹
+    var points = document.getElementById("points").getAttribute("value");
+    if (points != null && points != "") {
+        drawPath(points);
+    }
 </script>

@@ -5,7 +5,7 @@
 
 <!--    int insert(Location location);-->
     <insert id="insert" parameterType="com.bs.fence.entity.Location">
-        insert into location(description) values(#{description});
+        insert into location(description, areaId) values(#{description}, #{areaId});
     </insert>
 
 <!--    int addById(Location location);-->
@@ -46,8 +46,8 @@
     </update>
 
 <!--    String selectLocation(Integer id);-->
-    <select id="selectLocation" parameterType="Integer" resultType="String">
-        select description from location where id = #{id};
+    <select id="selectLocation" parameterType="Integer" resultType="com.bs.fence.entity.Location">
+        select * from location where id = #{id};
     </select>
 
 <!--    List<Location> queryAll();-->

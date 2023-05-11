@@ -128,8 +128,6 @@ public class CoordinateChangeUtil {
         return ret;
     }
 
-    ;
-
     private static double transformLng(double lng, double lat) {
         double ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
         ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
@@ -137,8 +135,6 @@ public class CoordinateChangeUtil {
         ret += (150.0 * Math.sin(lng / 12.0 * PI) + 300.0 * Math.sin(lng / 30.0 * PI)) * 2.0 / 3.0;
         return ret;
     }
-
-    ;
 
     /**
      * 判断坐标是否不在国内

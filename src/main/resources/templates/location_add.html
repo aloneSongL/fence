@@ -14,6 +14,14 @@
                     <td><input type="text" name="description"/></td>
                 </tr>
                 <tr>
+                    <th class="w20">分区：</th>
+                    <td>
+                        <select id="d6" style="width:100px" name="areaId">
+                            <option th:each="area : ${areas}" th:value="${area.id}" th:text="${area.name}">全&nbsp;部</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="2" class="w20">
                         <input type="submit" value="添加"/>
                     </td>

@@ -91,16 +91,16 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public int selectPage(Integer pageNo, Model model, HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
-        List<Location> locationList = (List<Location>)session.getAttribute("locationList");
-        if(locationList == null  || locationList.size() == 0){
-            model.addAttribute("locations", null);
-            return 1;
+        List<LocationDto> locationDtoList = (List<LocationDto>)session.getAttribute("locationList");
+        if(locationDtoList == null  || locationDtoList.size() == 0){
+            List<Location> locationList = locationDao.selectAll();
+            locationDtoList = toLocationDto(locationList);
         }
         PageInfo pageInfo;
         if(pageNo == 0){
-            pageInfo = PageUtils.pageHelperPlus(locationList, 1, 8);
+            pageInfo = PageUtils.pageHelperPlus(locationDtoList, 1, 8);
         }else {
-            pageInfo = PageUtils.pageHelperPlus(locationList, pageNo, 8);
+            pageInfo = PageUtils.pageHelperPlus(locationDtoList, pageNo, 8);
         }
 
         PageDto page = PageUtils.getPage(pageInfo);
@@ -110,7 +110,7 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public String selectLocation(Integer id) {
+    public Location selectLocation(Integer id) {
         return locationDao.selectLocation(id);
     }
 

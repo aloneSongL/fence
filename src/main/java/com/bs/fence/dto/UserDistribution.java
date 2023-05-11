@@ -16,5 +16,5 @@ public class UserDistribution {
 
     private int areaId;
     private int count;
-    private int areaName;
+    private String areaName;
 }

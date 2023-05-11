@@ -16,4 +16,7 @@
     <select id="selectAreaByName" parameterType="String" resultMap="areaMap">
         select * from area where name = #{name};
     </select>
+    <select id="selectAllArea" resultType="com.bs.fence.entity.Area">
+        select id, name from area;
+    </select>
 </mapper>

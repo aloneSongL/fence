@@ -39,7 +39,7 @@ public interface LocationService {
     int selectPage(Integer pageNo, Model model, HttpServletRequest httpServletRequest);
 
     //根据id查询位置信息
-    String selectLocation(Integer id);
+    Location selectLocation(Integer id);
 
     //查询被监控的位置信息
     List<Location> selectAll();

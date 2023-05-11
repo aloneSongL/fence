@@ -32,8 +32,6 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     UserDao userDao;
-    @Resource
-    LocationService locationService;
 
     @Override
     public Long register(User user, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,Model model) {
@@ -63,6 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     //客户端登录校验账号、密码
+    @Override
     public Long login(User user) {
         User result = userDao.select(user);
         if(result != null) {

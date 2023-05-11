@@ -6,6 +6,7 @@ import com.bs.fence.service.AreaService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author sjx
@@ -26,5 +27,10 @@ public class AreaServiceImpl implements AreaService {
     @Override
     public Area selectAreaByName(String name) {
         return areaDao.selectAreaByName(name);
+    }
+
+    @Override
+    public List<Area> selectAllArea() {
+        return areaDao.selectAllArea();
     }
 }

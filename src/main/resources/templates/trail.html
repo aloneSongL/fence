@@ -72,7 +72,8 @@
                 </th>
             </tr>
         </table>
-        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center" th:unless="${#lists.isEmpty(trails)}">
+        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center"
+             th:unless="${#lists.isEmpty(trails)}">
             <div>
                 <a th:href="@{/trail/selectPage/}+${page.firstPage}">
                     <button type="button">首页</button>
@@ -91,7 +92,7 @@
                 </a>
             </div>
             <div>
-                <a  th:href="@{/trail/selectPage/}+${page.endPage}">
+                <a th:href="@{/trail/selectPage/}+${page.endPage}">
                     <button type="button">尾页</button>
                 </a>
             </div>

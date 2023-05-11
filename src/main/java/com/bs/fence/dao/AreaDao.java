@@ -3,6 +3,8 @@ package com.bs.fence.dao;
 import com.bs.fence.entity.Area;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * @author sjx
  * @Description TODO
@@ -16,4 +18,6 @@ public interface AreaDao {
 
     //根据分区名称查询分区信息
     Area selectAreaByName(String name);
+
+    List<Area> selectAllArea();
 }

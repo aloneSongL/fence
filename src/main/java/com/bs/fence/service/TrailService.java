@@ -1,6 +1,7 @@
 package com.bs.fence.service;
 
 import com.bs.fence.dto.Point;
+import com.bs.fence.dto.Route;
 import com.bs.fence.dto.UserDistribution;
 import com.bs.fence.dto.WxDto;
 import com.bs.fence.entity.Location;
@@ -31,7 +32,7 @@ public interface TrailService {
     int add(Trail trail);
 
     //获取用户在哪些围栏内
-    List<Location> inPolygon(Point point);
+    List<Location> inPolygon(String userId, Point point);
 
     //判断用户是否通过某围栏
     WxDto monitor(String userId, String locations, Point point);
@@ -44,4 +45,7 @@ public interface TrailService {
 
     //查询所有用户目前所处位置信息
     int selectAllUserNow(HttpServletRequest request);
+
+    // 根据用户ID查询所有轨迹
+    List<Route> selectPath(Long userId);
 }

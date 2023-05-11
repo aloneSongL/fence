@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.bs.fence.dao.UserTimeDao">
+
+    <insert id="insertUserTime">
+        insert into userTime(userId, uuid, startTime) values (#{userId}, #{uuid}, #{startTime});
+    </insert>
+    <select id="selectByUserId" resultType="com.bs.fence.entity.UserTime">
+        select id, userId, uuid, startTime from userTime where userId = #{userId}
+    </select>
+
+</mapper>

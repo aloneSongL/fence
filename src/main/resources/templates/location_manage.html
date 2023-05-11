@@ -51,7 +51,7 @@
                         </a>
                     </th>
                     <th th:unless="${#strings.isEmpty(location.coordinate)}">
-                        <a>已添加坐标</a>
+                        <a th:href="@{/page/queryFence/} + ${location.id}">查看围栏</a>
                         <a th:href="@{/location/delCoordinateById/}+${location.id}+'/'+${page.pageNum}">
                             <button type="button">删除</button>
                         </a>
