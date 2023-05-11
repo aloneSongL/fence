@@ -76,4 +76,15 @@ public class UserController {
         userService.add(new User(userId, userName, status));
         return selectAll(model);
     }
+
+    /**
+    @author sjx
+    @Description 退出登录
+    @since 2023-04-23 13-09
+    */
+    @GetMapping("/outLogin")
+    public String outLogin(HttpServletRequest request){
+        userService.outLogin(request);
+        return "register";
+    }
 }

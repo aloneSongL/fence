@@ -1,37 +1,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/fence.css}">
     <script type="text/javascript" th:src="@{/js/index.js}"></script>
 </head>
 <body>
-<div id="div_container">
-    <div id="div_fruit_list">
-        <p class="center f30">欢迎使用校园电子围栏后台管理系统</p>
-        <div>
-            <a>目录：</a>
-            <a th:href="@{/location/select}" style="border:0px solid blue;margin-bottom:4px;">电子围栏</a>
-            <a th:href="@{/trail/select}" style="border:0px solid blue;margin-bottom:4px;">人员流动</a>
-            <a th:href="@{/user/selectAll}" style="border:0px solid blue;margin-bottom:4px;">用户管理</a>
+<!--导航栏-->
+<div style="font-size: 28px;color: #ffffff;background-color: #334156;height: 50px;width: 100%;
+            padding-left: 10px;padding-top: 12px">
+    欢迎使用校园电子围栏后台管理系统
+</div>
+    <div style="width: 100%;background-color: #ffffff;height: 2px"></div>
+    <div style="width: 150px;background-color: #334156;height: 100%;position: absolute;padding: 20px 0 10px 15px">
+        <div style="padding: 5px 30px;border-radius: 8px;width: 48%;background-color: #5377F8">
+           <a th:href="@{/location/select}" style="color: #ffffff;font-size: 16px;">电子围栏</a>
         </div>
         <br>
-        <div style="border:0px solid red;width:60%;margin-left:20%;">
-            <div style="border: 0px;width:75%;margin-bottom:4px;text-align: right;float: left;">
+        <div style="padding: 5px 30px;border-radius: 8px;width: 48%">
+            <a th:href="@{/trail/select}" style="color: #ffffff;font-size: 16px;">人员流动</a>
+        </div>
+        <br>
+        <div style="padding: 5px 30px;border-radius: 8px;width: 48%">
+            <a th:href="@{/user/selectAll}" style="color: #ffffff;font-size: 16px;">用户管理</a>
+        </div>
+
+    </div>
+<!--导航栏-->
+
+<div id="div_fruit_list">
+        <div style="width:82%;margin-left:15%;display: flex;align-items: center;height: 40px">
+            <div style="width:75%;margin-bottom:4px;text-align: right;float: left;">
                 <div>
                     <form th:action="@{/location/likeSelect}" method="post">
-                        <span style="float: left">分区:</span>
+                        <span style="float: left;margin-right: 5px">分区:</span>
                         <input type="text" name="areaName" style="width:15%;float: left;"/>
-                        <span style="float: left">位置:</span>
+                        <span style="float: left;margin-right: 5px;margin-left: 5px">位置:</span>
                         <input type="text" name="locationName" style="width:15%;float: left;"/>
-                        <input type="submit" value="搜索" style="float: left;"/>
+                        <input type="submit" value="搜索" style="float: left;margin-left: 10px;width: 60px"/>
                     </form>
                 </div>
             </div>
-            <div style="border: 0px;width:25%;margin-bottom:4px;text-align: right;float: left">
+            <div style="border: 0px;width:25%;text-align: right;float: left;margin-right: 10px;margin-top: 10px">
                 <a th:href="@{/page/add}">添加电子围栏</a>
             </div>
-        </div>
-            <table id="tbl_fruit" th:fragment="location_load">
+        </div >
+            <table id="tbl_fruit" th:fragment="location_load" >
                 <tr>
                     <th class="w20">位置</th>
                     <th class="w20">分区</th>
@@ -47,13 +60,13 @@
                     <th><a th:text="${location.areaName}"</th>
                     <th th:if="${#strings.isEmpty(location.coordinate)}">
                         <a th:href="@{/page/map/}+${location.id}+'/'+${page.pageNum}">
-                            <button type="button">添加</button>
+                            <button type="button" style="width: 60px">添加</button>
                         </a>
                     </th>
                     <th th:unless="${#strings.isEmpty(location.coordinate)}">
                         <a th:href="@{/page/queryFence/} + ${location.id}">查看围栏</a>
                         <a th:href="@{/location/delCoordinateById/}+${location.id}+'/'+${page.pageNum}">
-                            <button type="button">删除</button>
+                            <button type="button" style="width: 60px">删除</button>
                         </a>
                     </th>
                     <th>
@@ -74,26 +87,29 @@
                         </div>
                     </th>
                     <th>
-                        <a th:href="@{/page/locationEdit/}+${location.id}+'/'+${page.pageNum}">
-                            <button type="button">编辑</button>
-                        </a>
-                        <div th:if="${#strings.equals('1', locations.size)}">
-                            <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize - 1}">
-                                <button type="button">删除</button>
-                            </a>
-                        </div>
-                        <div th:unless="${#strings.equals('1',locations.size)}">
-                            <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize}">
-                                <button type="button">删除</button>
-                            </a>
+                        <div style="display: flex;justify-content: center;align-items: center">
+                                <a th:href="@{/page/locationEdit/}+${location.id}+'/'+${page.pageNum}" style="margin-right: 10px">
+                                    <button type="button" style="width: 55px">编辑</button>
+                                </a>
+                                <div th:if="${#strings.equals('1', locations.size)}">
+                                    <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize - 1}">
+                                        <button type="button" style="width: 55px">删除</button>
+                                    </a>
+                                </div>
+
+                                <div th:unless="${#strings.equals('1',locations.size)}">
+                                    <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize}">
+                                        <button type="button" style="width: 55px">删除</button>
+                                    </a>
+                                </div>
                         </div>
                     </th>
                 </tr>
             </table>
-        <div style="width:60%;margin-left:20%;border:0px solid red;padding-top:4px;" class="center" th:unless="${#lists.isEmpty(locations)}">
-            <div>
+        <div style="width:82%;margin-left:15%;padding-top:4px;" class="center" th:unless="${#lists.isEmpty(locations)}">
+            <div style="margin-right: 5px;">
                 <a th:href="@{/location/selectPage/}+${page.firstPage}">
-                    <button type="button">首页</button>
+                    <button type="button" style="width: 60px">首页</button>
                 </a>
             </div>
             <div th:if="${#strings.equals('true', page.isHasPreviousPage)}">
@@ -102,15 +118,15 @@
                 </a>
             </div>
             <div>第<a th:text="${page.pageNum}"></a>页/</div>
-            <div>共<a th:text="${page.pageSize}"></a>页</div>
-            <div th:if="${#strings.equals('true', page.isHasNextPage)}">
+            <div style="margin-right: 5px">共<a th:text="${page.pageSize}"></a>页</div>
+            <div th:if="${#strings.equals('true', page.isHasNextPage)}" style="margin-right: 5px;">
                 <a th:href="@{/location/selectPage/}+${page.pageNum + 1}">
-                    <button type="button">下一页</button>
+                    <button type="button" style="width: 60px">下一页</button>
                 </a>
             </div>
-            <div>
+            <div >
                 <a th:href="@{/location/selectPage/}+${page.endPage}">
-                    <button type="button">尾页</button>
+                    <button type="button" style="width: 60px">尾页</button>
                 </a>
             </div>
         </div>

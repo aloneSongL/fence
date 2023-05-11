@@ -151,14 +151,24 @@ public class LocationServiceImpl implements LocationService {
         ArrayList<LocationDto> locationDtoList = new ArrayList<>();
         for(Location location : list){
             LocationDto locationDto = new LocationDto();
-
-            locationDto.setDescription(location.getDescription());
-            locationDto.setId(location.getId());
-            locationDto.setIsMonitor(location.getIsMonitor());
-            locationDto.setCoordinate(location.getCoordinate());
-            Area area = areaService.selectAreaById(location.getAreaId());
-            locationDto.setAreaName(area.getName());
-
+            if(location.getDescription() != null){
+                locationDto.setDescription(location.getDescription());
+            }
+            if(location.getId() != null){
+                locationDto.setId(location.getId());
+            }
+            if(location.getIsMonitor() != null){
+                locationDto.setIsMonitor(location.getIsMonitor());
+            }
+            if(location.getCoordinate() != null){
+                locationDto.setCoordinate(location.getCoordinate());
+            }
+            if(location.getAreaId() != null){
+                Area area = areaService.selectAreaById(location.getAreaId());
+                if(area.getName() != null){
+                    locationDto.setAreaName(area.getName());
+                }
+            }
             locationDtoList.add(locationDto);
         }
 

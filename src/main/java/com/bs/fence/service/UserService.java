@@ -42,4 +42,7 @@ public interface UserService {
 
     //根据用户姓名查询id
     Long selectIdByName(String name);
+
+    //用户退出登录
+    int outLogin(HttpServletRequest request);
 }

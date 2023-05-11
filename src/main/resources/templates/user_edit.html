@@ -4,7 +4,7 @@
     <link rel="stylesheet" th:href="@{/css/add.css}">
 </head>
 <body>
-<div id="div_container">
+<div id="div_container" style="background-color: #ffffff;">
     <div id="div_fruit_list">
         <p class="center f30">编辑用户</p>
         <form th:action="@{/user/update/}+${userId}+'/'+${pageNo}" method="post">
