@@ -111,14 +111,18 @@ public class TrailServiceImpl implements TrailService {
         //用于存储用户在哪些区域内
         List<Location> list = new ArrayList<>();
         for (Location location : locations) {
-            String coordinate = location.getCoordinate();
-            List<Point> points = MapUtils.splitToPoints(coordinate);
-            boolean inPolygon = MapUtils.isInPolygon(points, point);
-            if (inPolygon == true) {
-                list.add(location);
-            }
-            if (list.size() > 1) {
-                return list;
+            if(location.getIsMonitor() == '1'){
+                String coordinate = location.getCoordinate();
+                if(coordinate != "" && coordinate != null){
+                    List<Point> points = MapUtils.splitToPoints(coordinate);
+                    boolean inPolygon = MapUtils.isInPolygon(points, point);
+                    if (inPolygon == true) {
+                        list.add(location);
+                    }
+                }
+                if (list.size() > 1) {
+                    return list;
+                }
             }
         }
         return list;
@@ -214,7 +218,7 @@ public class TrailServiceImpl implements TrailService {
             }
         }
         if (Strings.isEmpty(msg)) {
-            msg = "目前在校园中";
+            msg = "目前在校园内";
         }
 
         wxDto.setMsg(msg);

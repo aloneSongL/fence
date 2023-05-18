@@ -63,17 +63,17 @@
                             <button type="button" style="width: 55px">编辑</button>
                         </a>
                         <div th:if="${#strings.equals('1', users.size)}">
-                            <a th:href="@{/user/delete/}+${user.id}+'/'+${page.pageSize - 1}">
+                            <a th:href="@{/user/delete/}+${user.id}+'/'+${page.pageNum - 1}">
                                 <button type="button" style="width: 55px">删除</button>
                             </a>
                         </div>
                         <div th:unless="${#strings.equals('1',users.size)}">
-                            <a th:href="@{/user/delete/}+${user.id}+'/'+${page.pageSize}">
+                            <a th:href="@{/user/delete/}+${user.id}+'/'+${page.pageNum}">
                                 <button type="button" style="width: 55px">删除</button>
                             </a>
                         </div>
                         <div>
-                            <a th:href="@{/trail/selectPath/} + ${user.id}">
+                            <a th:href="@{/trail/selectPath/}+${user.id}+'/'+${page.pageNum}">
                                 <button type="button" style="width: 55px">轨迹</button>
                             </a>
                         </div>

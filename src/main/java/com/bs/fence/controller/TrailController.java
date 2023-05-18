@@ -36,20 +36,22 @@ public class TrailController {
     }
 
     @GetMapping("/selectPage/{pageNo}")
-    public String selectPage(@PathVariable("pageNo")    Integer pageNo,
+    public String selectPage(@PathVariable("pageNo") Integer pageNo,
                              HttpServletRequest request, Model model){
         trailService.selectPage(pageNo, request,  model);
         return "trail";
     }
 
-    @GetMapping("/selectPath/{userId}")
-    public String selectPath(@PathVariable("userId") Long userId, HttpServletRequest request) throws JsonProcessingException {
+    @GetMapping("/selectPath/{userId}/{pageNo}")
+    public String selectPath(@PathVariable("userId") Long userId,
+                             @PathVariable("pageNo") Integer pageNo, Model model) throws JsonProcessingException {
         List<Route> routes = trailService.selectPath(userId);
         List<List<LocationPoint>> points = routes.stream().map(Route::getPoints).collect(Collectors.toList());
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(points);
-        request.getSession().setAttribute("points", jsonString);
-        return "redirect:/page/map";
+        model.addAttribute("points", jsonString);
+        model.addAttribute("pageNo", pageNo);
+        return "map";
     }
 
     @GetMapping("/delete/{id}/{pageNo}")
@@ -73,7 +75,7 @@ public class TrailController {
     public String userAnalyse(Model model){
         trailService.selectSortCount(model);
         userService.userCount(model);
-        return "trail_Analyse";
+        return "trail_analyse";
     }
 
     //查询某个用户某段时间在某处的记录
