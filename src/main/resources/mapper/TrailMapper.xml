@@ -86,4 +86,17 @@
              ) a LEFT JOIN trail b ON a.userId = b.userId AND a.time = b.time;
     </select>
 
+    <resultMap id="dtoMap" type="com.bs.fence.dto.TrailDto">
+        <id column="id" property="id" jdbcType="BIGINT"></id>
+        <id column="locationId" property="locationId" jdbcType="INTEGER"></id>
+        <id column="time" property="time" jdbcType="TIMESTAMP"></id>
+        <id column="status" property="status" jdbcType="CHAR"></id>
+        <id column="userId" property="userId" jdbcType="BIGINT"></id>
+    </resultMap>
+    <select id="selectAllDto" resultMap="dtoMap">
+        select a.id,b.description `location`,a.time,a.status,c.userName
+        from trail `a` join location `b` on a.locationId = b.id
+        join user `c` on a.userId = c.id
+        ORDER BY `time`
+    </select>
 </mapper>

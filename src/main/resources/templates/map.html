@@ -23,6 +23,7 @@
 <div type="hidden" id="pageNo" th:value="${pageNo}"></div>
 <div type="hidden" id="userLocation" th:value="${userLocation}"></div>
 <div type="hidden" id="locations" th:value="${locations}"></div>
+<div type="hidden" id="fence" th:value="${fence}"></div>
 
 <ul class = "drawing-panel">
 <!--    <li class="bmap-btn bmap-marker" id="marker" onclick="draw(this)"></li>-->
@@ -82,6 +83,12 @@
     var locations = document.getElementById("locations").getAttribute("value");
     if(locations != null && locations != ""){
         drawLocation(locations);
+    };
+
+    //查看电子围栏
+    var fence = document.getElementById("fence").getAttribute("value");
+    if(fence != null && fence != ""){
+        selectLocation(fence);
     };
 
     // 绘制轨迹

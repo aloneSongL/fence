@@ -1,9 +1,6 @@
 package com.bs.fence.controller;
 
-import com.bs.fence.dto.LocationPoint;
-import com.bs.fence.dto.Point;
-import com.bs.fence.dto.Route;
-import com.bs.fence.dto.WxDto;
+import com.bs.fence.dto.*;
 import com.bs.fence.service.TrailService;
 import com.bs.fence.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,6 +57,7 @@ public class TrailController {
                          @PathVariable("pageNo") Integer pageNo,
                          HttpServletRequest request, Model model){
         trailService.delete(id);
+        refresh(request);
         return selectPage(pageNo, request, model);
     }
 
@@ -68,8 +67,6 @@ public class TrailController {
     public WxDto monitor(Point point, String userId, String locations){
         return trailService.monitor(userId, locations, point);
     }
-
-
 
     //人员去向分析页面
     @RequestMapping("/trailAnalyse")
@@ -94,5 +91,9 @@ public class TrailController {
         return "redirect:/page/map";
     }
 
-
+    public void refresh(HttpServletRequest request){
+        List<TrailDto> trailList = trailService.selectAllDto();
+        HttpSession session = request.getSession();
+        session.setAttribute("trailList", trailList);
+    }
 }

@@ -18,13 +18,16 @@
         </div>
         <br>
         <div style="padding: 5px 30px;border-radius: 8px;width: 48%">
-            <a th:href="@{/trail/select}" style="color: #ffffff;font-size: 16px;">人员流动</a>
+            <a th:href="@{/trail/trailAnalyse}" style="color: #ffffff;font-size: 16px;">分区管理</a>
+        </div>
+        <br>
+        <div style="padding: 5px 30px;border-radius: 8px;width: 48%">
+            <a th:href="@{/trail/select}" style="color: #ffffff;font-size: 16px;">人员轨迹</a>
         </div>
         <br>
         <div style="padding: 5px 30px;border-radius: 8px;width: 48%;background-color: #5377F8">
             <a th:href="@{/user/selectAll}" style="color: #ffffff;font-size: 16px;">用户管理</a>
         </div>
-
     </div>
     <!--导航栏-->
     <div id="div_fruit_list">
@@ -69,11 +72,11 @@
                                 <button type="button" style="width: 55px">删除</button>
                             </a>
                         </div>
-                    </div>
-                    <div>
-                        <a th:href="@{/trail/selectPath/} + ${user.id}">
-                            <button type="button">轨迹</button>
-                        </a>
+                        <div>
+                            <a th:href="@{/trail/selectPath/} + ${user.id}">
+                                <button type="button" style="width: 55px">轨迹</button>
+                            </a>
+                        </div>
                     </div>
                 </th>
             </tr>

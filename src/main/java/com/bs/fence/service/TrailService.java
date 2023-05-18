@@ -1,9 +1,6 @@
 package com.bs.fence.service;
 
-import com.bs.fence.dto.Point;
-import com.bs.fence.dto.Route;
-import com.bs.fence.dto.UserDistribution;
-import com.bs.fence.dto.WxDto;
+import com.bs.fence.dto.*;
 import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
 import org.springframework.ui.Model;
@@ -48,4 +45,7 @@ public interface TrailService {
 
     // 根据用户ID查询所有轨迹
     List<Route> selectPath(Long userId);
+
+    //查询所有轨迹信息
+    List<TrailDto> selectAllDto();
 }

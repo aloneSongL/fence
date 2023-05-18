@@ -17,7 +17,11 @@
         </div>
         <br>
         <div style="padding: 5px 30px;border-radius: 8px;width: 48%">
-            <a th:href="@{/trail/select}" style="color: #ffffff;font-size: 16px;">人员流动</a>
+            <a th:href="@{/trail/trailAnalyse}" style="color: #ffffff;font-size: 16px;">分区管理</a>
+        </div>
+        <br>
+        <div style="padding: 5px 30px;border-radius: 8px;width: 48%">
+            <a th:href="@{/trail/select}" style="color: #ffffff;font-size: 16px;">人员轨迹</a>
         </div>
         <br>
         <div style="padding: 5px 30px;border-radius: 8px;width: 48%">
@@ -64,7 +68,7 @@
                         </a>
                     </th>
                     <th th:unless="${#strings.isEmpty(location.coordinate)}">
-                        <a th:href="@{/page/queryFence/} + ${location.id}">查看围栏</a>
+                        <a th:href="@{/page/queryFence/}+${location.id}+'/'+${page.pageNum}">查看围栏</a>
                         <a th:href="@{/location/delCoordinateById/}+${location.id}+'/'+${page.pageNum}">
                             <button type="button" style="width: 60px">删除</button>
                         </a>
@@ -92,13 +96,13 @@
                                     <button type="button" style="width: 55px">编辑</button>
                                 </a>
                                 <div th:if="${#strings.equals('1', locations.size)}">
-                                    <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize - 1}">
+                                    <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageNum - 1}">
                                         <button type="button" style="width: 55px">删除</button>
                                     </a>
                                 </div>
 
                                 <div th:unless="${#strings.equals('1',locations.size)}">
-                                    <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageSize}">
+                                    <a th:href="@{/location/delete/}+${location.id}+'/'+${page.pageNum}">
                                         <button type="button" style="width: 55px">删除</button>
                                     </a>
                                 </div>

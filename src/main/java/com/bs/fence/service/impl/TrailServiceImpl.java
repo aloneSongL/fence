@@ -83,8 +83,7 @@ public class TrailServiceImpl implements TrailService {
 
     @Override
     public int selectAll(Model model, HttpServletRequest request) {
-        List<Trail> trails = trailDao.selectAll();
-        List<TrailDto> trailDtoList = trailDto(trails);
+        List<TrailDto> trailDtoList = selectAllDto();
         HttpSession session = request.getSession();
         session.setAttribute("trailList", trailDtoList);
         return selectPage(1, request, model);
@@ -284,6 +283,11 @@ public class TrailServiceImpl implements TrailService {
             help.add(strings);
         }
         return baiduService.queryEntity(userId.toString(), help, uuid);
+    }
+
+    @Override
+    public List<TrailDto> selectAllDto() {
+        return trailDao.selectAllDto();
     }
 
     /**

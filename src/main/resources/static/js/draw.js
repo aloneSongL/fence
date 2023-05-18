@@ -87,13 +87,26 @@ function drawPoint(e) {
     })
 }
 
-//反绘制围栏
-function drawLocation(e) {
+//查看围栏
+function selectLocation(e) {
     var location = JSON.parse(e);
     var coordinateString = location.coordinate;
     var coordinate = subCoordinate(coordinateString);
     var polygon = new BMapGL.Polygon(coordinate, {strokeColor: "blue", strokeWeight: 2, strokeOpacity: 0.5});
     map.addOverlay(polygon);
+}
+
+//反绘制围栏
+function drawLocation(e){
+    var locationList = JSON.parse(e);
+    locationList.map(function (location){
+        var coordinateString = location.coordinate;
+        if(coordinateString != "" && coordinateString != null){
+            var coordinate = subCoordinate(coordinateString);
+            var polygon = new BMapGL.Polygon(coordinate, {strokeColor:"blue", strokeWeight:2, strokeOpacity:0.5});
+            map.addOverlay(polygon);
+        }
+    })
 }
 
 function  drawPath(e) {

@@ -1,5 +1,6 @@
 package com.bs.fence.dao;
 
+import com.bs.fence.dto.TrailDto;
 import com.bs.fence.dto.UserDistribution;
 import com.bs.fence.entity.Location;
 import com.bs.fence.entity.Trail;
@@ -40,4 +41,7 @@ public interface TrailDao {
 
     //查询所有用户目前所处位置信息
     List<Trail> selectAllUserNow();
+
+    //查询所有轨迹信息
+    List<TrailDto> selectAllDto();
 }

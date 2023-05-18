@@ -110,13 +110,16 @@ public class PageController {
      * @param id  围栏 id
      * @return
      */
-    @GetMapping("/queryFence/{id}")
-    public String queryFence(@PathVariable("id") Integer id, HttpServletRequest request) throws JsonProcessingException {
+    @GetMapping("/queryFence/{id}/{pageNo}")
+    public String queryFence(@PathVariable("id") Integer id,
+                             @PathVariable("pageNo") Integer pageNo,
+                             Model model) throws JsonProcessingException {
         Location location = locationService.selectLocation(id);
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = mapper.writeValueAsString(location);
-        request.getSession().setAttribute("location", jsonString);
-        return "redirect:/page/map";
+        model.addAttribute("fence", jsonString);
+        model.addAttribute("pageNo", pageNo);
+        return "map";
     }
 
 }
