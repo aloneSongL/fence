@@ -1,5 +1,6 @@
 package com.bs.fence.service;
 
+import com.bs.fence.dto.LocationDto;
 import com.bs.fence.entity.Location;
 import com.github.pagehelper.PageInfo;
 import org.springframework.ui.Model;
@@ -49,4 +50,7 @@ public interface LocationService {
 
     //根据名称查找电子围栏信息，模糊查询
     Integer likeSelect(String locationName, String areaName, HttpServletRequest request, Model model);
+
+    //查询所有围栏信息
+    List<LocationDto> selectAllDto();
 }

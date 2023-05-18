@@ -72,4 +72,17 @@
             </if>
         </where>
     </select>
+
+<!--    List<LocationDto> selectAllDto();-->
+    <resultMap id="dtoResultMap" type="com.bs.fence.dto.LocationDto">
+        <id column="id" property="id" jdbcType="INTEGER"></id>
+        <id column="coordinate" property="coordinate" jdbcType="VARCHAR"></id>
+        <id column="description" property="description" jdbcType="VARCHAR"></id>
+        <id column="is_monitor" property="isMonitor" jdbcType="CHAR"></id>
+        <id column="areaName" property="areaName" jdbcType="VARCHAR"></id>
+    </resultMap>
+    <select id="selectAllDto" resultMap="dtoResultMap">
+        select a.id,a.coordinate,a.description,a.is_monitor,b.name `areaName`
+        from location `a` join area `b` on a.areaId = b.id
+    </select>
 </mapper>

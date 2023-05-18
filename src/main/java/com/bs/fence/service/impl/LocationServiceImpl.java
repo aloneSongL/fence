@@ -62,8 +62,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public int selectAll(Model model, HttpServletRequest httpServletRequest) {
-        List<Location> locationList = locationDao.selectAll();
-        List<LocationDto> locationDtoList = toLocationDto(locationList);
+        List<LocationDto> locationDtoList = selectAllDto();
         HttpSession session = httpServletRequest.getSession();
         session.setAttribute("locationList", locationDtoList);
         selectPage(1, model, httpServletRequest);
@@ -93,8 +92,7 @@ public class LocationServiceImpl implements LocationService {
         HttpSession session = httpServletRequest.getSession();
         List<LocationDto> locationDtoList = (List<LocationDto>)session.getAttribute("locationList");
         if(locationDtoList == null  || locationDtoList.size() == 0){
-            List<Location> locationList = locationDao.selectAll();
-            locationDtoList = toLocationDto(locationList);
+            locationDtoList = selectAllDto();
         }
         PageInfo pageInfo;
         if(pageNo == 0){
@@ -116,7 +114,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public List<Location> selectAll() {
-        return locationDao.queryAll();
+        return locationDao.selectAll();
     }
 
     @Override
@@ -144,6 +142,11 @@ public class LocationServiceImpl implements LocationService {
         session.setAttribute("locationList", locationDtoList);
         selectPage(1, model, request);
         return 1;
+    }
+
+    @Override
+    public List<LocationDto> selectAllDto() {
+        return locationDao.selectAllDto();
     }
 
     public List<LocationDto> toLocationDto(List<Location> list){

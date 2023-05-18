@@ -7,7 +7,7 @@
 <div id="div_container">
     <div id="div_fruit_list">
         <p class="center f30">编辑地点</p>
-        <form th:action="@{/location/update/}+${locationId}+'/'+${pageNo}" method="post">
+        <form th:action="@{/location/update/}+${location.id}+'/'+${pageNo}" method="post">
             <table id="tbl_fruit">
                 <tr>
                     <th class="w20">名称：</th>

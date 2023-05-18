@@ -1,5 +1,6 @@
 package com.bs.fence.controller;
 
+import com.bs.fence.dto.LocationDto;
 import com.bs.fence.entity.Location;
 import com.bs.fence.service.LocationService;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 /**
  * @author sjx
@@ -34,6 +37,7 @@ public class LocationController {
     public String delete(@PathVariable("id") Integer id,
                          @PathVariable("pageNo") Integer pageNo, Model model, HttpServletRequest httpServletRequest){
         locationService.delete(id);
+        refresh(httpServletRequest);
         return selectPage(pageNo, model, httpServletRequest);
     }
 
@@ -43,6 +47,7 @@ public class LocationController {
                          @PathVariable("pageNo") Integer pageNo,
                          String description, Model model, HttpServletRequest httpServletRequest){
         locationService.update(id, description);
+        refresh(httpServletRequest);
         return selectPage(pageNo, model, httpServletRequest);
     }
 
@@ -70,6 +75,7 @@ public class LocationController {
                                     @PathVariable("pageNo") Integer pageNo,
                                     Model model, HttpServletRequest httpServletRequest) {
         locationService.delCoordinateById(id);
+        refresh(httpServletRequest);
         return selectPage(pageNo, model, httpServletRequest);
     }
 
@@ -80,7 +86,7 @@ public class LocationController {
                                 @PathVariable("pageNo") Integer pageNo,
                                 Model model, HttpServletRequest httpServletRequest) {
         locationService.isMonitorById(id, isMonitor);
-
+        refresh(httpServletRequest);
         return selectPage(pageNo, model, httpServletRequest);
     }
 
@@ -98,5 +104,9 @@ public class LocationController {
         return "location_manage";
     }
 
-
+    public void refresh(HttpServletRequest request){
+        List<LocationDto> locationList = locationService.selectAllDto();
+        HttpSession session = request.getSession();
+        session.setAttribute("locationList", locationList);
+    }
 }

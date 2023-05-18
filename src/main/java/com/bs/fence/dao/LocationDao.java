@@ -1,5 +1,6 @@
 package com.bs.fence.dao;
 
+import com.bs.fence.dto.LocationDto;
 import com.bs.fence.entity.Location;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -45,4 +46,7 @@ public interface LocationDao {
 
     //根据名称模糊查询围栏信息
     List<Location> likeSelectByName(Location location);
+
+    //查询所有围栏信息
+    List<LocationDto> selectAllDto();
 }
